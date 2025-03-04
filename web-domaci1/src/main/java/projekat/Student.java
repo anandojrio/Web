@@ -15,7 +15,7 @@ public class Student implements Runnable {
     @Override
     public void run() {
         try {
-            // dolazak (0 < x <= 1 second)
+            // dolazak (0 < x <= 1)
             Thread.sleep(ThreadLocalRandom.current().nextInt(0, 1001));
 
             if (!direktor.tryAcquireStudent()) {
@@ -34,52 +34,53 @@ public class Student implements Runnable {
                 handleAsistentOdbranu();
             }
         } catch (InterruptedException e) {
-            System.out.println("Thread: Student" + id + " je prekinut.");
+            System.out.println("Student " + id + " je prekinut.");
         } finally {
-            direktor.releaseStudent(); // Release semaphore permit after defense or interruption
+            direktor.releaseStudent(); // release kad zavrsi
         }
     }
 
     private void handleProfesorOdbranu() throws InterruptedException {
         direktor.acquireProfessor(); // ceka profesora da zavrsi sa 2 threada
+        //mozda moze i tryAcquireProfessor
 
         try {
-            System.out.println("Thread: Student-" + id + " čeka profesora.");
-            direktor.getProfessorBarrier().await(); // Wait for another student
+            System.out.println("Student " + id + " ceka profesora.");
+            direktor.getProfessorBarrier().await(); // ceka drugog
 
-            long vremeOdbrane = ThreadLocalRandom.current().nextInt(500, 1001); // Simulate defense duration (0.5 <= X <= 1 second)
+            long vremeOdbrane = ThreadLocalRandom.current().nextInt(500, 1001); // random vreme odbrane (0.5 <= X <= 1)
             Thread.sleep(vremeOdbrane);
 
-            int score = ThreadLocalRandom.current().nextInt(6, 11); // Random score (5–10)
+            int score = ThreadLocalRandom.current().nextInt(6, 11); // random ocena
             direktor.addScore(score);
             direktor.incrementDefendedStudents();
 
-            System.out.println("Thread: Student-" + id + " branio kod profesora | TTC: "
-                    + vremeOdbrane + "ms | Ocjena: " + score);
+            System.out.println("Student " + id + " branio kod profesora | TTC: "
+                    + vremeOdbrane + "ms | Ocena: " + score);
         } catch (BrokenBarrierException e) {
             throw new RuntimeException(e);
         } finally {
-            direktor.releaseProfessor(); // Release professor after defense is completed
+            direktor.releaseProfessor();
         }
     }
 
     private void handleAsistentOdbranu() throws InterruptedException {
-        direktor.acquireAssistant(); // Wait until assistant is available
+        direktor.acquireAssistant(); // ceka asistenta
 
         try {
-            System.out.println("Thread: Student" + id + " počinje odbranu kod asistenta.");
+            System.out.println("Student " + id + " pocinje odbranu kod asistenta.");
 
-            long vremeOdbrane = ThreadLocalRandom.current().nextInt(500, 1001); // Simulate defense duration (0.5 <= X <= 1 second)
+            long vremeOdbrane = ThreadLocalRandom.current().nextInt(500, 1001);
             Thread.sleep(vremeOdbrane);
 
-            int score = ThreadLocalRandom.current().nextInt(6, 11); // Random score (5–10)
+            int score = ThreadLocalRandom.current().nextInt(6, 11);
             direktor.addScore(score);
             direktor.incrementDefendedStudents();
 
-            System.out.println("Thread: Student" + id + " branio kod asistenta | TTC: "
+            System.out.println("Student " + id + " branio kod asistenta | TTC: "
                     + vremeOdbrane + "ms | Ocena: " + score);
         } finally {
-            direktor.releaseAssistant(); // Release assistant after defense is completed
+            direktor.releaseAssistant();
         }
     }
 }

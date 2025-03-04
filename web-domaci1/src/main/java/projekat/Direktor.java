@@ -44,11 +44,11 @@ public class Direktor {
     }
 
     public boolean tryAcquireStudent() {
-        return studentSemaphore.tryAcquire(); // Returns true if student can defend, false otherwise
+        return studentSemaphore.tryAcquire(); // true ako moze
     }
 
     public void releaseStudent() {
-        studentSemaphore.release(); // Releases a permit when a student finishes or is interrupted
+        studentSemaphore.release();
     }
 
     public void acquireProfessor() throws InterruptedException {
