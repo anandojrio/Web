@@ -106,15 +106,22 @@ class Client implements Runnable {
         out.println(message);
     }
 
-    private String cenzurisi(String message) {
-        List<String> censoredWords = Arrays.asList("pederu", "ruzansi");
-        for (String word : censoredWords) {
-            if (message.contains(word)) {
-                int duzinaReci = word.length();
-                String replacement = word.charAt(0) + "*".repeat(duzinaReci - 2) + word.charAt(duzinaReci - 1);
-                message = message.replace(word, replacement);
+    private String cenzurisi(String poruka) {
+        List<String> cenzurisane = Arrays.asList("pederu", "ruzansi");
+        for (String rec : cenzurisane) {
+            if (poruka.contains(rec)) {
+                int duzinaReci = rec.length();
+                //String konacna = rec.charAt(0) + "*".repeat(duzinaReci - 2) + rec.charAt(duzinaReci - 1);
+
+                String konacna = String.valueOf(rec.charAt(0));
+                for(int i = 0; i < duzinaReci-2; i++){
+                    konacna = konacna.concat("*");
+                }
+                konacna = konacna.concat(String.valueOf(rec.charAt(duzinaReci - 1)));
+
+                poruka = poruka.replace(rec, konacna);
             }
         }
-        return message;
+        return poruka;
     }
 }
