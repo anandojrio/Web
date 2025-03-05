@@ -51,12 +51,12 @@ public class Student implements Runnable {
             long vremeOdbrane = ThreadLocalRandom.current().nextInt(500, 1001); // random vreme odbrane (0.5 <= X <= 1)
             Thread.sleep(vremeOdbrane);
 
-            int score = ThreadLocalRandom.current().nextInt(6, 11); // random ocena
-            direktor.addScore(score);
-            direktor.incrementDefendedStudents();
+            int ocena = ThreadLocalRandom.current().nextInt(6, 11); // random ocena
+            direktor.saberiOcenu(ocena);
+            direktor.dodajStudentaNaUkupanBroj();
 
             System.out.println("Student " + id + " branio kod profesora | TTC: "
-                    + vremeOdbrane + "ms | Ocena: " + score);
+                    + vremeOdbrane + "ms | Ocena: " + ocena);
         } catch (BrokenBarrierException e) {
             throw new RuntimeException(e);
         } finally {
@@ -73,12 +73,12 @@ public class Student implements Runnable {
             long vremeOdbrane = ThreadLocalRandom.current().nextInt(500, 1001);
             Thread.sleep(vremeOdbrane);
 
-            int score = ThreadLocalRandom.current().nextInt(6, 11);
-            direktor.addScore(score);
-            direktor.incrementDefendedStudents();
+            int ocena = ThreadLocalRandom.current().nextInt(6, 11);
+            direktor.saberiOcenu(ocena);
+            direktor.dodajStudentaNaUkupanBroj();
 
             System.out.println("Student " + id + " branio kod asistenta | TTC: "
-                    + vremeOdbrane + "ms | Ocena: " + score);
+                    + vremeOdbrane + "ms | Ocena: " + ocena);
         } finally {
             direktor.releaseAssistant();
         }

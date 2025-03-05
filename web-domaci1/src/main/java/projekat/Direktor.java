@@ -67,11 +67,11 @@ public class Direktor {
         assistantSemaphore.release();
     }
 
-    public void addScore(int score) {
+    public void saberiOcenu(int score) {
         zbirOcena.addAndGet(score);
     }
 
-    public void incrementDefendedStudents() {
+    public void dodajStudentaNaUkupanBroj() {
         brOcenjenihStudenata.incrementAndGet();
     }
 
