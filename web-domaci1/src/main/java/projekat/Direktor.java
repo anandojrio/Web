@@ -4,6 +4,10 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.*;
 import java.util.*;
 
+import static projekat.Student.brOcenjenih;
+import static projekat.Student.zbirOcena;
+
+
 public class Direktor {
     private final int brStudenata;
     private final ExecutorService threadPool;
@@ -11,8 +15,6 @@ public class Direktor {
     private final Semaphore professorSemaphore;
     private final Semaphore assistantSemaphore;
     private final Semaphore studentSemaphore;
-    private final AtomicInteger zbirOcena;
-    private final AtomicInteger brOcenjenihStudenata;
     private final ScheduledExecutorService timer;
     private long startTime;
 
@@ -24,8 +26,6 @@ public class Direktor {
                                                            // pa onda da dodju na cekanje
         this.assistantSemaphore = new Semaphore(1,true); // samo 1, po pravom redosledu
         this.studentSemaphore = new Semaphore(brStudenata); // nema ponavljanja
-        this.zbirOcena = new AtomicInteger(0);
-        this.brOcenjenihStudenata = new AtomicInteger(0);
         this.timer = Executors.newSingleThreadScheduledExecutor();
     }
 
@@ -35,7 +35,7 @@ public class Direktor {
         // 5 sekundi traje
         timer.schedule(() -> {
             threadPool.shutdownNow(); // zaustavlja sve nezavrsene threadove
-            stampa();
+            stampa(zbirOcena,brOcenjenih);
         }, 5, TimeUnit.SECONDS);
 
         // ubacuje nove threadove u pool
@@ -74,21 +74,13 @@ public class Direktor {
         assistantSemaphore.release();
     }
 
-    public void saberiOcenu(int score) {
-        zbirOcena.addAndGet(score);
-    }
-
-    public void dodajStudentaNaUkupanBroj() {
-        brOcenjenihStudenata.incrementAndGet();
-    }
-
     public CyclicBarrier getProfessorBarrier() {
         return professorBarrier;
     }
 
-    private void stampa() {
-        double prosek = (double) zbirOcena.get() / brOcenjenihStudenata.get();
-        System.out.println("Ukupan broj ocenjenih studenata: " + brOcenjenihStudenata.get());
+    private void stampa(int zbirOcena, int brOcenjenih) {
+        double prosek = (double) zbirOcena / brOcenjenih;
+        System.out.println("Ukupan broj ocenjenih studenata: " + brOcenjenih);
         System.out.println("Prosečna ocena: " + prosek);
     }
 }

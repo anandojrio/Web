@@ -6,6 +6,8 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Student implements Runnable {
     private final int id;
     private final Direktor direktor;
+    static int zbirOcena = 0;
+    static int brOcenjenih = 0;
 
     public Student(int id, Direktor direktor) {
         this.id = id;
@@ -55,8 +57,11 @@ public class Student implements Runnable {
             Thread.sleep(trajanjeOdbrane);
 
             int ocena = ThreadLocalRandom.current().nextInt(5, 11); // random ocena
-            direktor.saberiOcenu(ocena);
-            direktor.dodajStudentaNaUkupanBroj();
+
+            synchronized (Student.class){
+                zbirOcena += ocena;
+                brOcenjenih++;
+            }
 
             System.out.println("Thread: Student " + id +
                     "   Arrival: " + vremeDolaska +
@@ -81,8 +86,11 @@ public class Student implements Runnable {
             Thread.sleep(trajanjeOdbrane);
 
             int ocena = ThreadLocalRandom.current().nextInt(6, 11);
-            direktor.saberiOcenu(ocena);
-            direktor.dodajStudentaNaUkupanBroj();
+
+            synchronized (Student.class){
+                zbirOcena += ocena;
+                brOcenjenih++;
+            }
 
             System.out.println("Thread: Student " + id +
                     "   Arrival: " + vremeDolaska +
