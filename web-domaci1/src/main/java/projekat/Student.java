@@ -18,6 +18,8 @@ public class Student implements Runnable {
             // dolazak (0 < x <= 1)
             Thread.sleep(ThreadLocalRandom.current().nextInt(0, 1001));
 
+            long vremeDolaska  = System.currentTimeMillis() - direktor.getStartTime(); // vreme dolaska od pocetka odbrani 0<=X<=1
+
             if (!direktor.tryAcquireStudent()) {
                 // proverava studenta
                 System.out.println("Greska sa studentom.");
@@ -29,9 +31,9 @@ public class Student implements Runnable {
 
             //0 - profesor   1 - asistent
             if (braniKodProfesora) {
-                handleProfesorOdbranu();
+                handleProfesorOdbranu(vremeDolaska);
             } else {
-                handleAsistentOdbranu();
+                handleAsistentOdbranu(vremeDolaska);
             }
         } catch (InterruptedException e) {
             System.out.println("Student " + id + " je prekinut.");
@@ -40,7 +42,7 @@ public class Student implements Runnable {
         }
     }
 
-    private void handleProfesorOdbranu() throws InterruptedException {
+    private void handleProfesorOdbranu(long vremeDolaska) throws InterruptedException {
         direktor.acquireProfessor(); // ceka profesora da zavrsi sa 2 threada
         //mozda moze i tryAcquireProfessor
 
@@ -48,15 +50,19 @@ public class Student implements Runnable {
             System.out.println("Student " + id + " ceka profesora.");
             direktor.getProfessorBarrier().await(); // ceka drugog
 
-            long vremeOdbrane = ThreadLocalRandom.current().nextInt(500, 1001); // random vreme odbrane (0.5 <= X <= 1)
-            Thread.sleep(vremeOdbrane);
+            long vremePocetka = System.currentTimeMillis() - direktor.getStartTime(); // relativno vreme pocetka 5s
+            long trajanjeOdbrane = ThreadLocalRandom.current().nextInt(500, 1001); // random vreme odbrane (0.5 <= X <= 1)
+            Thread.sleep(trajanjeOdbrane);
 
-            int ocena = ThreadLocalRandom.current().nextInt(6, 11); // random ocena
+            int ocena = ThreadLocalRandom.current().nextInt(5, 11); // random ocena
             direktor.saberiOcenu(ocena);
             direktor.dodajStudentaNaUkupanBroj();
 
-            System.out.println("Student " + id + " branio kod profesora | TTC: "
-                    + vremeOdbrane + "ms | Ocena: " + ocena);
+            System.out.println("Thread: Student " + id +
+                    "   Arrival: " + vremeDolaska +
+                    "ms   Prof: Profesor" +
+                    "   TTC: " + trajanjeOdbrane + "ms : " + vremePocetka +
+                    "ms   Score: " + ocena);
         } catch (BrokenBarrierException e) {
             throw new RuntimeException(e);
         } finally {
@@ -64,21 +70,25 @@ public class Student implements Runnable {
         }
     }
 
-    private void handleAsistentOdbranu() throws InterruptedException {
+    private void handleAsistentOdbranu(long vremeDolaska) throws InterruptedException {
         direktor.acquireAssistant(); // ceka asistenta
 
         try {
             System.out.println("Student " + id + " pocinje odbranu kod asistenta.");
 
-            long vremeOdbrane = ThreadLocalRandom.current().nextInt(500, 1001);
-            Thread.sleep(vremeOdbrane);
+            long vremePocetka = System.currentTimeMillis() - direktor.getStartTime();
+            long trajanjeOdbrane = ThreadLocalRandom.current().nextInt(500, 1001);
+            Thread.sleep(trajanjeOdbrane);
 
             int ocena = ThreadLocalRandom.current().nextInt(6, 11);
             direktor.saberiOcenu(ocena);
             direktor.dodajStudentaNaUkupanBroj();
 
-            System.out.println("Student " + id + " branio kod asistenta | TTC: "
-                    + vremeOdbrane + "ms | Ocena: " + ocena);
+            System.out.println("Thread: Student " + id +
+                    "   Arrival: " + vremeDolaska +
+                    "ms   Prof: Asistent" +
+                    "   TTC: " + trajanjeOdbrane + "ms : " + vremePocetka +
+                    "ms   Score: " + ocena);
         } finally {
             direktor.releaseAssistant();
         }

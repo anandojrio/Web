@@ -14,6 +14,7 @@ public class Direktor {
     private final AtomicInteger zbirOcena;
     private final AtomicInteger brOcenjenihStudenata;
     private final ScheduledExecutorService timer;
+    private long startTime;
 
     public Direktor(int brStudenata) {
         this.brStudenata = brStudenata;
@@ -29,6 +30,8 @@ public class Direktor {
     }
 
     public void zapocniOdbrane() {
+
+        startTime = System.currentTimeMillis();
         // 5 sekundi traje
         timer.schedule(() -> {
             threadPool.shutdownNow(); // zaustavlja sve nezavrsene threadove
@@ -43,6 +46,10 @@ public class Direktor {
         threadPool.shutdown();
     }
 
+
+    public long getStartTime() {
+        return startTime; // getter za vreme pocetak odbrane
+    }
     public boolean tryAcquireStudent() {
         return studentSemaphore.tryAcquire(); // true ako moze
     }
