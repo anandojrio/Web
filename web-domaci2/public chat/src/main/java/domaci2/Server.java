@@ -54,7 +54,7 @@ public class Server {
     // skidanje sa liste kad se disconnect
     synchronized static void removeClient(Client client, String username) {
         clients.remove(client);
-//        clientNames.remove(username); // ako nije komentarisano mocice da se uloguje sa istim username
+        clientNames.remove(username); // da li je zauzet username koji nije ulogovan
         broadcastMessage("Korisnik " + username + " je napustio chat.", false);
     }
 

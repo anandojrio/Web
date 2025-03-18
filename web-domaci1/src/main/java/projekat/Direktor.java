@@ -48,7 +48,7 @@ public class Direktor {
 
 
     public long getStartTime() {
-        return startTime; // getter za vreme pocetak odbrane
+        return startTime; 
     }
     public boolean tryAcquireStudent() {
         return studentSemaphore.tryAcquire(); // true ako moze

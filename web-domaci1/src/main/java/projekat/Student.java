@@ -30,7 +30,6 @@ public class Student implements Runnable {
 
             boolean braniKodProfesora = ThreadLocalRandom.current().nextInt(2) == 0; // random 0 ili 1
 
-
             //0 - profesor   1 - asistent
             if (braniKodProfesora) {
                 handleProfesorOdbranu(vremeDolaska);
@@ -85,7 +84,7 @@ public class Student implements Runnable {
             long trajanjeOdbrane = ThreadLocalRandom.current().nextInt(500, 1001);
             Thread.sleep(trajanjeOdbrane);
 
-            int ocena = ThreadLocalRandom.current().nextInt(6, 11);
+            int ocena = ThreadLocalRandom.current().nextInt(5, 11);
 
             synchronized (Student.class){
                 zbirOcena += ocena;

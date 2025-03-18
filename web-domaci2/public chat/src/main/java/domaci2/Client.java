@@ -25,7 +25,7 @@ class Client implements Runnable {
         PrintWriter out;
 
         try (Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT)) {
-            System.out.println("Connected to the chat server.");
+            System.out.println("Connected to the server.");
 
             // Input and output streams
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -95,7 +95,7 @@ class Client implements Runnable {
                 Server.broadcastMessage(konacnaPoruka, true);
             }
         } catch (IOException e) {
-            System.err.println("Error handling client: " + e.getMessage());
+            System.err.println("Greska sa klijentom: " + e.getMessage());
         } finally {
             Server.removeClient(this, username);
             try { socket.close(); } catch (IOException ignored) { }
@@ -107,17 +107,15 @@ class Client implements Runnable {
     }
 
     private String cenzurisi(String poruka) {
-        List<String> cenzurisane = Arrays.asList("pederu", "ruzansi");
+        List<String> cenzurisane = Arrays.asList("glupane", "tupane");
         for (String rec : cenzurisane) {
             if (poruka.contains(rec)) {
-                int duzinaReci = rec.length();
-                //String konacna = rec.charAt(0) + "*".repeat(duzinaReci - 2) + rec.charAt(duzinaReci - 1);
 
                 String konacna = String.valueOf(rec.charAt(0));
-                for(int i = 0; i < duzinaReci-2; i++){
+                for(int i = 0; i < rec.length()-2; i++){
                     konacna = konacna.concat("*");
                 }
-                konacna = konacna.concat(String.valueOf(rec.charAt(duzinaReci - 1)));
+                konacna = konacna.concat(String.valueOf(rec.charAt(rec.length() - 1)));
 
                 poruka = poruka.replace(rec, konacna);
             }
