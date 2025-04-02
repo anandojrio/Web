@@ -37,8 +37,13 @@ public class App implements ServletContextListener {
     }
 
     private void loadMeals(ServletContext ctx, Map<String, List<String>> weeklyMeals, String fileName, String dayName) {
-        try (InputStream is = ctx.getResourceAsStream("/resursi/" + fileName)) {
-            List<String> meals = new BufferedReader(new InputStreamReader(is)).lines().collect(Collectors.toList());
+        try (InputStream is = ctx.getResourceAsStream("/WEB-INF/resursi/" + fileName)) {
+            if (is == null) {
+                throw new RuntimeException("Failed to load resource: " + fileName + ". Check if the file exists in /resursi/");
+            }
+            List<String> meals = new BufferedReader(new InputStreamReader(is))
+                    .lines()
+                    .collect(Collectors.toList());
             weeklyMeals.put(dayName, meals);
         } catch (IOException e) {
             throw new RuntimeException("Failed to load " + fileName, e);
@@ -46,7 +51,10 @@ public class App implements ServletContextListener {
     }
 
     private String loadPassword(ServletContext ctx) {
-        try (InputStream is = ctx.getResourceAsStream("/resursi/password.txt")) {
+        try (InputStream is = ctx.getResourceAsStream("/WEB-INF/resursi/password.txt")) {
+            if (is == null) {
+                throw new RuntimeException("Failed to load resource: password.txt. Check if the file exists in /resursi/");
+            }
             return new BufferedReader(new InputStreamReader(is)).readLine().trim();
         } catch (IOException e) {
             throw new RuntimeException("Failed to load password.txt", e);

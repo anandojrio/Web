@@ -1,10 +1,53 @@
+<!-- meal-selection.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Meal Selection</title>
 </head>
 <body>
-
+<h1>Select Your Meals</h1>
+<form method="POST" action="/select-meals">
+    <div>
+        <label for="ponedeljak">Ponedeljak:</label>
+        <select id="ponedeljak" name="ponedeljak">
+            <option value="Piletina sa pirincem">Piletina sa pirincem</option>
+            <option value="Pilav">Pilav</option>
+            <option value="Cufte sa pireom">Cufte sa pireom</option>
+        </select>
+    </div>
+    <div>
+        <label for="utorak">Utorak:</label>
+        <select id="utorak" name="utorak">
+            <option value="Jelo 1">Jelo 1</option>
+            <option value="Jelo 2">Jelo 2</option>
+            <option value="Jelo 3">Jelo 3</option>
+        </select>
+    </div>
+    <div>
+        <label for="sreda">Sreda:</label>
+        <select id="sreda" name="sreda">
+            <option value="Jelo 1">Jelo 1</option>
+            <option value="Jelo 2">Jelo 2</option>
+            <option value="Jelo 3">Jelo 3</option>
+        </select>
+    </div>
+    <div>
+        <label for="cetvrtak">Cetvrtak:</label>
+        <select id="cetvrtak" name="cetvrtak">
+            <option value="Jelo 1">Jelo 1</option>
+            <option value="Jelo 2">Jelo 2</option>
+            <option value="Jelo 3">Jelo 3</option>
+        </select>
+    </div>
+    <div>
+        <label for="petak">Petak:</label>
+        <select id="petak" name="petak">
+            <option value="Jelo 1">Jelo 1</option>
+            <option value="Jelo 2">Jelo 2</option>
+            <option value="Jelo 3">Jelo 3</option>
+        </select>
+    </div>
+    <button type="submit">Submit</button>
+</form>
 </body>
 </html>
