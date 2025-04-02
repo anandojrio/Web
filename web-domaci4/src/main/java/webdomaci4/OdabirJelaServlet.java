@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,9 +39,33 @@ public class OdabirJelaServlet extends HttpServlet {
             return;
         }
 
-        request.setAttribute("weeklyMeals", weeklyMeals);
-        request.getRequestDispatcher("meal-selection.html").forward(request, response);
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        out.println("<!DOCTYPE html>");
+        out.println("<html><head><title>Meal Selection</title></head><body>");
+        out.println("<h1>Select Your Meals</h1>");
+        out.println("<form method='POST' action='/select-meals'>");
+
+        for (Map.Entry<String, List<String>> entry : weeklyMeals.entrySet()) {
+            String day = entry.getKey();
+            List<String> meals = entry.getValue();
+
+            out.println("<div>");
+            out.println("<label for='" + day + "'>" + day + ":</label>");
+            out.println("<select id='" + day + "' name='" + day + "'>");
+
+            for (String meal : meals) {
+                out.println("<option value='" + meal + "'>" + meal + "</option>");
+            }
+
+            out.println("</select>");
+            out.println("</div>");
+        }
+
+        out.println("<button type='submit'>Submit</button>");
+        out.println("</form></body></html>");
     }
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
