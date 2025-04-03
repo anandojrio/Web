@@ -42,30 +42,47 @@ public class OdabirJelaServlet extends HttpServlet {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
         out.println("<!DOCTYPE html>");
-        out.println("<html><head><title>Meal Selection</title></head><body>");
-        out.println("<h1>Select Your Meals</h1>");
-        out.println("<form method='POST' action='/select-meals'>");
+        out.println("<html>");
+        out.println("<head>");
+        out.println("<title>Meal Selection</title>");
+        out.println("<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css\" rel=\"stylesheet\">");
+        out.println("<style>");
+        out.println("body { font-family: Arial, sans-serif; font-size: 18px; padding: 20px; }");
+        out.println(".container { max-width: 600px; margin: 0 auto; }");
+        out.println("h1 { text-align: center; margin-bottom: 30px; }");
+        out.println(".form-group { margin-bottom: 25px; }");
+        out.println("label { font-weight: bold; margin-bottom: 10px; display: block; }");
+        out.println(".submit-btn { margin-top: 30px; }");
+        out.println("</style>");
+        out.println("</head>");
+        out.println("<body>");
+        out.println("<div class=\"container\">");
+        out.println("<h1>Odaberite vas rucak:</h1>");
+        out.println("<form method=\"POST\" action=\"/select-meals\">");
 
-        for (Map.Entry<String, List<String>> entry : weeklyMeals.entrySet()) {
-            String day = entry.getKey();
-            List<String> meals = entry.getValue();
+        // Generate dropdown for each day with its meals
+        for (String day : weeklyMeals.keySet()) {
+            out.println("<div class=\"form-group\">");
+            out.println("<label for=\"" + day.toLowerCase() + "\">" + day + ":</label>");
+            out.println("<select id=\"" + day.toLowerCase() + "\" name=\"" + day + "\" class=\"form-select form-select-lg\">");
 
-            out.println("<div>");
-            out.println("<label for='" + day + "'>" + day + ":</label>");
-            out.println("<select id='" + day + "' name='" + day + "'>");
-
+            List<String> meals = weeklyMeals.get(day);
             for (String meal : meals) {
-                out.println("<option value='" + meal + "'>" + meal + "</option>");
+                out.println("<option value=\"" + meal + "\">" + meal + "</option>");
             }
 
             out.println("</select>");
             out.println("</div>");
         }
 
-        out.println("<button type='submit'>Submit</button>");
-        out.println("</form></body></html>");
+        out.println("<div class=\"text-center\">");
+        out.println("<button type=\"submit\" class=\"btn btn-primary btn-lg submit-btn\">Submit</button>");
+        out.println("</div>");
+        out.println("</form>");
+        out.println("</div>");
+        out.println("<script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js\"></script>");
+        out.println("</body></html>");
     }
-
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -83,9 +100,12 @@ public class OdabirJelaServlet extends HttpServlet {
             }
         });
 
-        orders.put(session.getId(), userSelections);
+        synchronized (orders) {
+            orders.put(session.getId(), userSelections);
+        }
         session.setAttribute("selectedMeals", userSelections);
 
         response.sendRedirect("potvrda.html");
     }
 }
+
