@@ -19,57 +19,61 @@ public class AdminServlet extends HttpServlet {
 
     private String validPassword;
     private Map<String, Map<String, String>> orders;
-    private Map<String, List<String>> weeklyMeals;  // Add this
+    private Map<String, List<String>> weeklyMeals;
 
     @Override
     public void init() throws ServletException {
-        ServletContext ctx = getServletContext();
-        validPassword = (String) ctx.getAttribute("adminPassword");
-        orders = (ConcurrentHashMap<String, Map<String, String>>) ctx.getAttribute("orders");
-        weeklyMeals = (Map<String, List<String>>) ctx.getAttribute("weeklyMeals");  // And this
+        ServletContext server = getServletContext();
+        validPassword = (String) server.getAttribute("adminPassword");
+        orders = (ConcurrentHashMap<String, Map<String, String>>) server.getAttribute("orders");
+        weeklyMeals = (Map<String, List<String>>) server.getAttribute("weeklyMeals");  // sva jela
 
-        if (validPassword == null || orders == null || weeklyMeals == null) {  // Check weeklyMeals
+        if (validPassword == null || orders == null || weeklyMeals == null) {  // provera inicijalizacije
             throw new ServletException("Failed to initialize. Ensure AppInitializer is correctly set up.");
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        
+        // AUTH
         String submittedPassword = request.getParameter("lozinka");
         if (!validPassword.equals(submittedPassword)) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid credentials");
             return;
         }
 
-        // Calculate meal counts by day
-        Map<String, Map<String, Integer>> mealCountsByDay = new HashMap<>();
-        List<String> allDays = Arrays.asList("Ponedeljak", "Utorak", "Sreda", "Cetvrtak", "Petak");
-        for (String day : allDays) {
-            mealCountsByDay.put(day, new HashMap<>());
+        // BROJ JELA PO DANIMA
+        Map<String, Map<String, Integer>> jelaPoDanu = new HashMap<>();
+        List<String> sviDani = Arrays.asList("Ponedeljak", "Utorak", "Sreda", "Cetvrtak", "Petak");
+        for (String day : sviDani) {
+            jelaPoDanu.put(day, new HashMap<>());
 
-            // Initialize all meals for each day with count 0
+            // sve inicijalizovati na 0
             List<String> meals = weeklyMeals.get(day);
             for (String meal : meals) {
-                mealCountsByDay.get(day).put(meal, 0);
+                jelaPoDanu.get(day).put(meal, 0);
             }
         }
 
+        // prolazi kroz sve i povecava sta treba
         synchronized (orders) {
             for (Map<String, String> userSelections : orders.values()) {
                 for (Map.Entry<String, String> entry : userSelections.entrySet()) {
-                    String day = entry.getKey();
-                    String meal = entry.getValue();
-                    mealCountsByDay.get(day).put(meal, mealCountsByDay.get(day).getOrDefault(meal, 0) + 1);
+                    String dan = entry.getKey();
+                    String jelo = entry.getValue();
+                    jelaPoDanu.get(dan).put(jelo, jelaPoDanu.get(dan).getOrDefault(jelo, 0) + 1);
                 }
             }
         }
 
+        // PRIKAZ ATRANICE
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
         out.println("<!DOCTYPE html>");
         out.println("<html>");
         out.println("<head>");
-        out.println("<title>Pregled porudzbina</title>");
+        out.println("<title>Admin Page</title>");
         out.println("<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css\" rel=\"stylesheet\">");
         out.println("<style>");
         out.println("body { font-family: Arial, sans-serif; font-size: 18px; padding: 20px; }");
@@ -85,11 +89,12 @@ public class AdminServlet extends HttpServlet {
         out.println("<div class=\"container\">");
         out.println("<h1>Pregled porudzbina</h1>");
 
-        for (String day : allDays) {
+        // PRIKAZ TABELE PO DANIMA
+        for (String day : sviDani) {
             out.println("<div class=\"card day-card\">");
             out.println("<h2>" + day + "</h2>");
 
-            Map<String, Integer> dayMeals = mealCountsByDay.get(day);
+            Map<String, Integer> dayMeals = jelaPoDanu.get(day);
             out.println("<ul class=\"list-group\">");
             for (Map.Entry<String, Integer> mealEntry : dayMeals.entrySet()) {
                 out.println("<li class=\"list-group-item meal-item\">");
@@ -104,7 +109,7 @@ public class AdminServlet extends HttpServlet {
 
         out.println("<form method=\"POST\" class=\"text-center\">");
         out.println("<input type=\"hidden\" name=\"lozinka\" value=\"" + submittedPassword + "\">");
-        out.println("<button type=\"submit\" class=\"btn btn-danger reset-button\">Ocisti</button>");
+        out.println("<button type=\"submit\" class=\"btn btn-danger reset-button\">Očisti</button>");
         out.println("</form>");
 
         out.println("</div>");
@@ -112,6 +117,8 @@ public class AdminServlet extends HttpServlet {
         out.println("</body></html>");
     }
 
+
+    // OCISTI
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         orders.clear();

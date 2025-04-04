@@ -19,43 +19,43 @@ public class App implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        ServletContext ctx = sce.getServletContext();
-        Map<String, List<String>> weeklyMeals = new HashMap<>();
+        ServletContext server = sce.getServletContext(); //zajednicko baratanje atributima
+        Map<String, List<String>> svaJela = new HashMap<>();
 
-        loadMeals(ctx, weeklyMeals, "ponedeljak.txt", "Ponedeljak");
-        loadMeals(ctx, weeklyMeals, "utorak.txt", "Utorak");
-        loadMeals(ctx, weeklyMeals, "sreda.txt", "Sreda");
-        loadMeals(ctx, weeklyMeals, "cetvrtak.txt", "Cetvrtak");
-        loadMeals(ctx, weeklyMeals, "petak.txt", "Petak");
+        ucitajObroke(server, svaJela, "ponedeljak.txt", "Ponedeljak");
+        ucitajObroke(server, svaJela, "utorak.txt", "Utorak");
+        ucitajObroke(server, svaJela, "sreda.txt", "Sreda");
+        ucitajObroke(server, svaJela, "cetvrtak.txt", "Cetvrtak");
+        ucitajObroke(server, svaJela, "petak.txt", "Petak");
 
-        ctx.setAttribute("weeklyMeals", weeklyMeals);
+        server.setAttribute("weeklyMeals", svaJela);
 
-        String adminPassword = loadPassword(ctx);
-        ctx.setAttribute("adminPassword", adminPassword);
+        String adminPassword = ucitajPassword(server);
+        server.setAttribute("adminPassword", adminPassword);
 
-        ctx.setAttribute("orders", new ConcurrentHashMap<String, Map<String, String>>());
+        server.setAttribute("orders", new ConcurrentHashMap<String, Map<String, String>>());
     }
 
-    private void loadMeals(ServletContext ctx, Map<String, List<String>> weeklyMeals, String fileName, String dayName) {
-        try (InputStream is = ctx.getResourceAsStream("/WEB-INF/resursi/" + fileName)) {
-            if (is == null) {
+    private void ucitajObroke(ServletContext server, Map<String, List<String>> svaJela, String fileName, String dayName) {
+        try (InputStream in = server.getResourceAsStream("/WEB-INF/resursi/" + fileName)) {
+            if (in == null) {
                 throw new RuntimeException("Failed to load resource: " + fileName + ". Check if the file exists in /resursi/");
             }
-            List<String> meals = new BufferedReader(new InputStreamReader(is))
+            List<String> meals = new BufferedReader(new InputStreamReader(in))
                     .lines()
                     .collect(Collectors.toList());
-            weeklyMeals.put(dayName, meals);
+            svaJela.put(dayName, meals);
         } catch (IOException e) {
             throw new RuntimeException("Failed to load " + fileName, e);
         }
     }
 
-    private String loadPassword(ServletContext ctx) {
-        try (InputStream is = ctx.getResourceAsStream("/WEB-INF/resursi/password.txt")) {
-            if (is == null) {
+    private String ucitajPassword(ServletContext server) {
+        try (InputStream in = server.getResourceAsStream("/WEB-INF/resursi/password.txt")) {
+            if (in == null) {
                 throw new RuntimeException("Failed to load resource: password.txt. Check if the file exists in /resursi/");
             }
-            return new BufferedReader(new InputStreamReader(is)).readLine().trim();
+            return new BufferedReader(new InputStreamReader(in)).readLine().trim();
         } catch (IOException e) {
             throw new RuntimeException("Failed to load password.txt", e);
         }
