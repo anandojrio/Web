@@ -41,7 +41,7 @@ public class OdabirJelaServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Map<String, String> izabranaJela = (Map<String, String>) session.getAttribute("selectedMeals");
 
-        // orders resetovan ali session od ove instance nije
+        // selektovana su jela ali ne postoji u porudzbinama
         if (izabranaJela != null && !orders.containsKey(session.getId())) {
             // OCISTI
             session.removeAttribute("selectedMeals");

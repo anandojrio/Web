@@ -29,7 +29,7 @@ public class AdminServlet extends HttpServlet {
         weeklyMeals = (Map<String, List<String>>) server.getAttribute("weeklyMeals");  // sva jela
 
         if (validPassword == null || orders == null || weeklyMeals == null) {  // provera inicijalizacije
-            throw new ServletException("Failed to initialize. Ensure AppInitializer is correctly set up.");
+            throw new ServletException("Failed to initialize.");
         }
     }
 
