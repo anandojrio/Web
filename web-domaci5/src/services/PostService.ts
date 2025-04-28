@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { Post, CreatePostData } from '@/models/Post'
 
-const API_URL = 'http://localhost:5173/api'
+const API_URL = 'http://localhost:8080/api'
 
 export default {
   async getPosts(): Promise<Post[]> {

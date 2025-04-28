@@ -22,12 +22,12 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import PostService from '@/services/PostService'
-import PostList from '@/components/post/PostList.vue'
-import PostDetail from '@/components/post/PostDetail.vue'
-import PostForm from '@/components/post/PostForm.vue'
-import type { Post } from '@/models/Post'
-import type { Comment } from '@/models/Comment'
+import PostService from '../services/PostService'
+import PostList from '../components/post/PostList.vue'
+import PostDetail from '../components/post/PostDetail.vue'
+import PostForm from '../components/post/PostForm.vue'
+import type { Post } from '../models/Post'
+import type { Comment } from '../models/Comment'
 
 const posts = ref<Post[]>([])
 const selectedPost = ref<Post | null>(null)
