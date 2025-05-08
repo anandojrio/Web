@@ -95,7 +95,7 @@ onMounted(fetchPost)
 
 async function submitComment() {
   if (!commentAuthor.value.trim() || !commentContent.value.trim()) {
-    showToast('Please fill in both name and comment!', 'error')
+    showToast('Molimo Vas da popunite i ime i zeljeni komentar!', 'error')
     return
   }
   try {
@@ -107,12 +107,12 @@ async function submitComment() {
     } // This matches CreateCommentData
 
     await PostService.addCommentToPost(postId, newComment)
-    showToast('Comment added!', 'success')
+    showToast('Komentar dodat!', 'success')
     commentAuthor.value = ''
     commentContent.value = ''
     await fetchPost() // Reload comments
   } catch (error) {
-    showToast('Failed to add comment. Please try again.', 'error')
+    showToast('Neuspesno sacuvan komentar. Pokusajte ponovo.', 'error')
     console.error(error)
   }
 }
@@ -128,7 +128,7 @@ async function submitComment() {
 }
 
 .title-fun {
-  font-family: 'Roboto', sans-serif; /* or your chosen font */
+  font-family: 'Roboto', sans-serif;
   color: #1e3a8a; /* Dark blue */
   text-shadow: 2px 2px 4px rgba(30, 58, 138, 0.4); /* subtle blue shadow */
   letter-spacing: 2px;

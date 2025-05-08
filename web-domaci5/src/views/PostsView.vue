@@ -1,5 +1,6 @@
 <template>
   <div class="container my-5 fun-container">
+    <!-- NASLOV -->
     <h1 class="text-center display-4 mb-4 title-fun">Welcome to the Public Blog!</h1>
     <div class="row">
       <div class="col-12 fun-container">
@@ -9,12 +10,16 @@
               <h5 class="card-title mb-1">{{ post.title }}</h5>
               <small class="text-muted">{{ formatRelativeTime(post.date) }}</small>
             </div>
+            <!-- PRVIH 400 RECI PREVIEW-->
             <p class="card-text mb-1">
               {{ post.content.length > 400 ? post.content.slice(0, 400) + '...' : post.content }}
             </p>
+
+            <!-- DETALJI JEDNOJ SE OTVARAJU -->
             <a class="card-link" @click.prevent="goToPost(post.id)">Opširnije...</a>
           </div>
         </div>
+        <!-- PRAVLJENJE NOVOG POSTA SE POKRECE -->
         <div class="d-flex justify-content-end mt-2">
           <button class="btn btn-primary" @click="goToNewPost">New Post</button>
         </div>
@@ -33,14 +38,17 @@ import { formatRelativeTime } from '@/utils/time'
 const posts = ref<Post[]>([])
 const router = useRouter()
 
+//na pokretanju se ucitaju svi postovi
 onMounted(async () => {
   posts.value = await PostService.getPosts()
 })
 
+// new post page
 function goToNewPost() {
   router.push({ name: 'newpost' })
 }
 
+// detail page
 function goToPost(id: number) {
   router.push({ name: 'postdetail', params: { id } })
 }
@@ -56,7 +64,7 @@ function goToPost(id: number) {
 }
 
 .title-fun {
-  font-family: 'Roboto', sans-serif; /* or your chosen font */
+  font-family: 'Roboto', sans-serif;
   color: #1e3a8a; /* Dark blue */
   text-shadow: 2px 2px 4px rgba(30, 58, 138, 0.4); /* subtle blue shadow */
   letter-spacing: 2px;
@@ -65,7 +73,7 @@ function goToPost(id: number) {
 .fun-container {
   background: #e0e7ff; /* Light blue background */
   border-radius: 12px;
-  box-shadow: 0 8px 18px rgba(59, 130, 246, 0.3); /* Soft blue shadow */
+  box-shadow: 0 8px 18px rgba(59, 130, 246, 0.3);
   padding: 2rem;
   margin-bottom: 2rem;
   font-family: 'Roboto', sans-serif;

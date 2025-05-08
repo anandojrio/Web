@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Check the browser console for posts data</h2>
+    <h2>PROB APROBA</h2>
   </div>
 </template>
 

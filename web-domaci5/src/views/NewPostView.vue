@@ -36,6 +36,7 @@
     </form>
 
     <!-- Toast Notification -->
+    <!-- potvrda -->
     <div
       v-if="toast.show"
       :class="[
@@ -81,12 +82,14 @@ function showToast(message: string, type: 'success' | 'error' = 'success') {
   toast.value.message = message
   toast.value.type = type
   toast.value.show = true
-  setTimeout(() => (toast.value.show = false), 3000)
+  setTimeout(() => (toast.value.show = false), 800)
 }
 
+// klik na dugme
 async function handleSubmit() {
+  // fali podatak
   if (!author.value.trim() || !title.value.trim() || !content.value.trim()) {
-    showToast('Please fill in all fields!', 'error')
+    showToast('Popunite sva polja!', 'error')
     return
   }
 
@@ -97,19 +100,20 @@ async function handleSubmit() {
       content: content.value,
     })
 
+    // USPESNO
     showToast('Post has been saved successfully!', 'success')
 
-    // Wait a moment so user sees the toast, then navigate
+    // mali delay da bi se procitao toast
     setTimeout(() => {
       router.push({ name: 'posts' }).catch((error) => {
         if (!isNavigationFailure(error, NavigationFailureType.duplicated)) {
-          showToast('Navigation failed. Please try again.', 'error')
+          showToast('Navigation case problem. Please try again.', 'error')
           console.error(error)
         }
       })
     }, 400)
   } catch (error) {
-    showToast('Failed to save post. Please try again.', 'error')
+    showToast('Neuspesno cuvanje posta. Molimo pokusajte opet.', 'error')
     console.error(error)
   }
 }
@@ -130,7 +134,7 @@ async function handleSubmit() {
 }
 
 .title-fun {
-  font-family: 'Roboto', sans-serif; /* or your chosen font */
+  font-family: 'Roboto', sans-serif;
   color: #1e3a8a; /* Dark blue */
   text-shadow: 2px 2px 4px rgba(30, 58, 138, 0.4); /* subtle blue shadow */
   letter-spacing: 2px;

@@ -11,7 +11,7 @@ const routes = [
   },
   { path: '/newpost', name: 'newpost', component: NewPostView },
   { path: '/:id', name: 'postdetail', component: PostDetailView },
-  // ... other routes
+  // rute za sve tri stranice
 ]
 
 const router = createRouter({

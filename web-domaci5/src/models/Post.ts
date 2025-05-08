@@ -5,7 +5,7 @@ export interface Comment {
   postId: number
   author: string
   content: string
-  date: string // ISO string format
+  date: string
 }
 
 export interface Post {
@@ -13,11 +13,10 @@ export interface Post {
   title: string
   author: string
   content: string
-  date: string // ISO string format
+  date: string
   comments: Comment[]
 }
 
-// For creating a new post (without id, date, comments)
 export interface CreatePostData {
   title: string
   author: string
