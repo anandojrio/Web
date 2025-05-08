@@ -1,20 +1,8 @@
 <template>
-  <div class="container">
-    <header>
-      <h1>Public Blog</h1>
-    </header>
-    <main>
-      <HomeView />
-    </main>
-    <footer>
-      <p>&copy; 2025 Blog Platform</p>
-    </footer>
-  </div>
+  <router-view />
 </template>
 
-<script setup lang="ts">
-import HomeView from './views/HomeView.vue'
-</script>
+<script setup lang="ts"></script>
 
 <style>
 .container {

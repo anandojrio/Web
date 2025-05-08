@@ -1,21 +1,34 @@
+// src/services/PostService.ts
+
 import axios from 'axios'
-import { Post, CreatePostData } from '@/models/Post'
+import type { Post, CreatePostData, Comment, CreateCommentData } from '../models/Post'
 
-const API_URL = 'http://localhost:8080/api'
+const API_BASE_URL = 'http://localhost:8080/api' // Adjust if needed
 
-export default {
+class PostService {
+  // Fetch all posts
   async getPosts(): Promise<Post[]> {
-    const response = await axios.get<Post[]>(`${API_URL}/posts`)
+    const response = await axios.get<Post[]>(`${API_BASE_URL}/posts`)
     return response.data
-  },
+  }
 
-  async getPost(id: number): Promise<Post> {
-    const response = await axios.get<Post>(`${API_URL}/posts/${id}`)
+  // Fetch a single post by ID (with comments)
+  async getPostById(postId: number): Promise<Post> {
+    const response = await axios.get<Post>(`${API_BASE_URL}/posts/${postId}`)
     return response.data
-  },
+  }
 
-  async createPost(post: CreatePostData): Promise<Post> {
-    const response = await axios.post<Post>(`${API_URL}/posts`, post)
+  // Create a new post
+  async createPost(postData: CreatePostData): Promise<Post> {
+    const response = await axios.post<Post>(`${API_BASE_URL}/posts`, postData)
     return response.data
-  },
+  }
+
+  // Add a comment to a post
+  async addCommentToPost(postId: number, comment: CreateCommentData): Promise<Comment> {
+    const response = await axios.post<Comment>(`${API_BASE_URL}/posts/${postId}/comments`, comment)
+    return response.data
+  }
 }
+
+export default new PostService()

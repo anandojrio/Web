@@ -23,4 +23,16 @@ public class PostResource {
         Post created = repository.createPost(post);
         return Response.status(201).entity(created).build();
     }
+
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPostById(@PathParam("id") int id) {
+        Post post = repository.getPostById(id);
+        if (post == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        return Response.ok(post).build();
+    }
+
 }

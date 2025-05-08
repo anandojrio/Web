@@ -18,7 +18,7 @@ public class CommentResource {
             @PathParam("postId") int postId,
             Comment comment
     ) {
-        Post post = repository.getPost(postId);
+        Post post = repository.getPostById(postId);
         if (post == null) {
             return Response.status(404).entity("Post not found").build();
         }
@@ -31,7 +31,7 @@ public class CommentResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getComments(@PathParam("postId") int postId) {
-        Post post = repository.getPost(postId);
+        Post post = repository.getPostById(postId);
         if (post == null) {
             return Response.status(404).build();
         }

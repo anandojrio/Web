@@ -20,7 +20,7 @@ public class PostRepository {
         return new ArrayList<>(posts.values());
     }
 
-    public Post getPost(int id) {
+    public Post getPostById(int id) {
         return posts.get(id);
     }
 
