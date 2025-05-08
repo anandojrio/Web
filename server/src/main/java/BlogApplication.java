@@ -1,6 +1,8 @@
+import filter.AuthFilter;
 import filter.CORSFilter;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
+import resources.AuthResource;
 import resources.CommentResource;
 import resources.PostResource;
 
@@ -14,7 +16,9 @@ public class BlogApplication extends Application {
         Set<Class<?>> classes = new HashSet<>();
         classes.add(PostResource.class);
         classes.add(CommentResource.class);
+        classes.add(AuthResource.class);
         classes.add(CORSFilter.class);
+        classes.add(AuthFilter.class);
         return classes;
     }
 }

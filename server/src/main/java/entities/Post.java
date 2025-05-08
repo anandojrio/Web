@@ -1,5 +1,7 @@
 package entities;
 
+import jakarta.persistence.Column;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,6 +11,7 @@ public class Post {
 
     private int id;
     private String title;
+    @Column(nullable = false)
     private String author;
     private String content;
     private Date date = new Date();

@@ -1,5 +1,7 @@
 package entities;
 
+import jakarta.persistence.Column;
+
 import java.util.Date;
 
 public class Comment {
@@ -7,6 +9,7 @@ public class Comment {
 
     private int id;
     private int postId;
+    @Column(nullable = false)
     private String author;
     private String content;
     private Date date = new Date();
