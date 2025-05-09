@@ -3,16 +3,6 @@
     <h2 class="text-center mb-4 title-fun">Create a New Post</h2>
     <form @submit.prevent="handleSubmit" class="fun-container">
       <div class="mb-3">
-        <label for="author" class="form-label">Author</label>
-        <input
-          id="author"
-          v-model="author"
-          type="text"
-          class="form-control"
-          placeholder="Enter your name"
-        />
-      </div>
-      <div class="mb-3">
         <label for="title" class="form-label">Title</label>
         <input
           id="title"
@@ -66,8 +56,8 @@
 import { ref } from 'vue'
 import { useRouter, isNavigationFailure, NavigationFailureType } from 'vue-router'
 import PostService from '@/services/PostService'
+import { onMounted } from 'vue'
 
-const author = ref('')
 const title = ref('')
 const content = ref('')
 const router = useRouter()
@@ -76,6 +66,16 @@ const toast = ref({
   show: false,
   message: '',
   type: 'success' as 'success' | 'error',
+})
+
+onMounted(async () => {
+  const user = localStorage.getItem('user')
+  if (!user) {
+    showToast('Please log in to access this page.', 'error')
+    setTimeout(() => {
+      router.push({ name: 'auth' })
+    }, 800)
+  }
 })
 
 function showToast(message: string, type: 'success' | 'error' = 'success') {
@@ -87,15 +87,21 @@ function showToast(message: string, type: 'success' | 'error' = 'success') {
 
 // klik na dugme
 async function handleSubmit() {
+  const user = localStorage.getItem('user')
+  if (!user) {
+    showToast('Please log in to access this page.', 'error')
+    setTimeout(() => {
+      router.push({ name: 'auth' })
+    }, 800)
+  }
   // fali podatak
-  if (!author.value.trim() || !title.value.trim() || !content.value.trim()) {
+  if (!title.value.trim() || !content.value.trim()) {
     showToast('Popunite sva polja!', 'error')
     return
   }
 
   try {
     await PostService.createPost({
-      author: author.value,
       title: title.value,
       content: content.value,
     })

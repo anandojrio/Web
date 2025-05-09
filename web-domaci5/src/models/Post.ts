@@ -24,7 +24,5 @@ export interface CreatePostData {
 }
 
 export interface CreateCommentData {
-  postId: number
-  author: string
   content: string
 }

@@ -39,6 +39,7 @@ public class AuthFilter implements ContainerRequestFilter {
             // Set the user as a request property
             requestContext.setProperty("username", username);
         } catch (JWTVerificationException e) {
+            System.out.println("JWT Verification failed: " + e.getMessage());
             abortWithUnauthorized(requestContext, "Invalid token: " + e.getMessage());
         }
     }

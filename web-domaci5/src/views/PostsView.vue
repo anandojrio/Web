@@ -16,7 +16,7 @@
             </p>
 
             <!-- DETALJI JEDNOJ SE OTVARAJU -->
-            <a class="card-link" @click.prevent="goToPost(post.id)">Opširnije...</a>
+            <a class="card-link" @click.prevent="goToPost(post.id)">More...</a>
           </div>
         </div>
         <!-- PRAVLJENJE NOVOG POSTA SE POKRECE -->
@@ -38,8 +38,28 @@ import { formatRelativeTime } from '@/utils/time'
 const posts = ref<Post[]>([])
 const router = useRouter()
 
+const toast = ref({
+  show: false,
+  message: '',
+  type: 'success' as 'success' | 'error',
+})
+
+function showToast(message: string, type: 'success' | 'error' = 'success') {
+  toast.value.message = message
+  toast.value.type = type
+  toast.value.show = true
+  setTimeout(() => (toast.value.show = false), 3000)
+}
+
 //na pokretanju se ucitaju svi postovi
 onMounted(async () => {
+  const user = localStorage.getItem('user')
+  if (!user) {
+    showToast('Please log in to access this page.', 'error')
+    setTimeout(() => {
+      router.push({ name: 'auth' })
+    }, 800)
+  }
   posts.value = await PostService.getPosts()
 })
 

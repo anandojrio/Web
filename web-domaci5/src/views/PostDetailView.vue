@@ -1,14 +1,15 @@
 <template>
   <div class="container my-5">
     <div v-if="post" class="fun-container">
-      <h2 class="mb-1 title-fun">{{ post.title }}</h2>
+      <h2 class="post-title mb-1 title-fun">{{ post.title }}</h2>
+
       <div class="mb-2 text-muted small">
         {{ formatRelativeTime(post.date) }}<br />
         {{ post.author }}
       </div>
-      <div class="mb-4">{{ post.content }}</div>
+      <div class="post-content mb-4">{{ post.content }}</div>
 
-      <h4 class="mt-4 mb-3">Comments</h4>
+      <h4 class="comment mt-4 mb-3">Comments</h4>
       <div v-if="post.comments && post.comments.length">
         <div v-for="(comment, idx) in post.comments" :key="idx" class="mb-3">
           <strong>{{ comment.author }}</strong>
@@ -20,9 +21,6 @@
 
       <form @submit.prevent="submitComment" class="mt-4">
         <h5 class="mb-3">New comment</h5>
-        <div class="mb-2">
-          <input v-model="commentAuthor" type="text" class="form-control" placeholder="Name" />
-        </div>
         <div class="mb-2">
           <textarea
             v-model="commentContent"
@@ -66,12 +64,13 @@ import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import PostService from '@/services/PostService'
 import { formatRelativeTime } from '@/utils/time'
+import router from '@/router'
+import { CreateCommentData } from '@/models/Post'
 
 const route = useRoute()
 const postId = Number(route.params.id)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const post = ref<any>(null)
-const commentAuthor = ref('')
 const commentContent = ref('')
 
 const toast = ref({
@@ -88,27 +87,28 @@ function showToast(message: string, type: 'success' | 'error' = 'success') {
 }
 
 async function fetchPost() {
+  const user = localStorage.getItem('user')
+  if (!user) {
+    router.push({ name: 'auth' }) // redirect to login if not logged in
+  }
   post.value = await PostService.getPostById(postId)
 }
 
 onMounted(fetchPost)
 
 async function submitComment() {
-  if (!commentAuthor.value.trim() || !commentContent.value.trim()) {
-    showToast('Molimo Vas da popunite i ime i zeljeni komentar!', 'error')
+  if (!commentContent.value.trim()) {
+    showToast('Molimo Vas da unesete komentar!', 'error')
     return
   }
   try {
     const postId = Number(post.value.id)
-    const newComment = {
-      postId,
-      author: commentAuthor.value,
+    const newComment: CreateCommentData = {
       content: commentContent.value,
-    } // This matches CreateCommentData
+    }
 
     await PostService.addCommentToPost(postId, newComment)
     showToast('Komentar dodat!', 'success')
-    commentAuthor.value = ''
     commentContent.value = ''
     await fetchPost() // Reload comments
   } catch (error) {
@@ -119,6 +119,9 @@ async function submitComment() {
 </script>
 
 <style scoped>
+.text-muted {
+  font-size: 15px;
+}
 .card-title {
   font-weight: bold;
 }
@@ -134,6 +137,14 @@ async function submitComment() {
   letter-spacing: 2px;
 }
 
+.post-title {
+  font-size: 2.8rem;
+  font-weight: 500;
+  color: #1e3a8a;
+  letter-spacing: 1.5px;
+  margin-bottom: 0.5rem;
+}
+
 .fun-container {
   background: #e0e7ff; /* Light blue background */
   border-radius: 12px;
@@ -142,6 +153,10 @@ async function submitComment() {
   margin-bottom: 2rem;
   font-family: 'Roboto', sans-serif;
   color: #1e293b; /* Dark slate blue text */
+}
+
+.post-content {
+  font-size: 20px;
 }
 
 .btn-primary {
@@ -156,5 +171,10 @@ async function submitComment() {
 .toast {
   opacity: 1;
   transition: opacity 0.5s;
+}
+
+.comment {
+  color: #1e3a8a;
+  font-weight: bolder;
 }
 </style>

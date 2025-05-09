@@ -1,8 +1,20 @@
 <template>
-  <router-view />
+  <div id="app">
+    <Navbar v-if="isAuthenticated" />
+    <div class="container">
+      <router-view />
+    </div>
+  </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { computed } from 'vue'
+import Navbar from '@/components/NavbarComponent.vue'
+
+const isAuthenticated = computed(() => {
+  return !!localStorage.getItem('user')
+})
+</script>
 
 <style>
 .container {
