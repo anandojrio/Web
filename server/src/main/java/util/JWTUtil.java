@@ -9,10 +9,10 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import java.util.Date;
 
 public class JWTUtil {
-    // Secret key for signing the JWT
+    // Secret key JWT za potpis
     private static final String SECRET = "your-secret-key-should-be-very-long-and-secure";
 
-    // JWT expiration time (1 day in milliseconds)
+    // JWT expiration time (1 dan u milisekundama)
     private static final long EXPIRATION_TIME = 86400000;
 
     // Algorithm for signing the JWT

@@ -27,13 +27,13 @@ public class AuthResource {
                     .entity("Username and password are required").build();
         }
 
-        // Check if username already exists
+        // da li vec postoji
         if (userRepository.usernameExists(request.getUsername())) {
             return Response.status(Response.Status.CONFLICT)
                     .entity("Username already exists").build();
         }
 
-        // Hash the password with BCrypt
+        // BCrypt hashuje pass
         String hashedPassword = BCrypt.withDefaults()
                 .hashToString(12, request.getPassword().toCharArray());
 
@@ -45,7 +45,7 @@ public class AuthResource {
         try {
             userRepository.createUser(user);
 
-            // Generate JWT token for the new user
+            // Generate new JWT token
             String token = JWTUtil.generateToken(user.getUsername());
             LoginResponse response = new LoginResponse(token, user.getUsername());
 
@@ -68,14 +68,14 @@ public class AuthResource {
                     .entity("Username and password are required").build();
         }
 
-        // Find the user by username
+        // nadji po username-u
         User user = userRepository.findByUsername(request.getUsername());
         if (user == null) {
             return Response.status(Response.Status.UNAUTHORIZED)
                     .entity("Invalid username or password").build();
         }
 
-        // Verify the password
+        // verify password
         BCrypt.Result result = BCrypt.verifyer()
                 .verify(request.getPassword().toCharArray(), user.getPassword());
 

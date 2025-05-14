@@ -7,7 +7,7 @@ import jakarta.persistence.TypedQuery;
 import util.DatabaseUtil;
 
 public class UserRepository {
-    // Singleton pattern
+    // Singleton
     private static UserRepository instance = new UserRepository();
 
     public static UserRepository getInstance() {
@@ -15,10 +15,10 @@ public class UserRepository {
     }
 
     private UserRepository() {
-        // Private constructor for singleton
+
     }
 
-    // Create a new user
+    // create new user
     public User createUser(User user) {
         EntityManager em = DatabaseUtil.createEntityManager();
         try {
@@ -36,7 +36,7 @@ public class UserRepository {
         }
     }
 
-    // Find user by username
+    // find with username
     public User findByUsername(String username) {
         EntityManager em = DatabaseUtil.createEntityManager();
         try {
@@ -51,12 +51,12 @@ public class UserRepository {
         }
     }
 
-    // Check if username already exists
+    // provera da li postoji
     public boolean usernameExists(String username) {
         return findByUsername(username) != null;
     }
 
-    // Get user by ID
+    // trazi po ID
     public User findById(Integer id) {
         EntityManager em = DatabaseUtil.createEntityManager();
         try {

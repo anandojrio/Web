@@ -27,13 +27,13 @@ public class PostResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Secured // Require authentication
     public Response createPost(Post post) {
-        // Get username from JWT token set by AuthFilter
+        // get username from JWT token koji AuthFilter stavi
         String username = (String) requestContext.getProperty("username");
         if (username == null) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
 
-        post.setAuthor(username);  // Set author automatically
+        post.setAuthor(username);  // automatski setuje authora
         Post created = repository.createPost(post);
         return Response.status(201).entity(created).build();
     }

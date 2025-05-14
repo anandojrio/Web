@@ -20,19 +20,17 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
-    // Default constructor for JPA
+    // setuje datum kad se kreira
     public User() {
         this.createdAt = new Date();
     }
 
-    // Constructors, getters and setters
     public User(String username, String password) {
         this.username = username;
         this.password = password;
         this.createdAt = new Date();
     }
 
-    // Getters and setters
     public Integer getId() {
         return id;
     }

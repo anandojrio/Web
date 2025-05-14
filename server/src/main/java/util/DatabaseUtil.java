@@ -16,7 +16,7 @@ public class DatabaseUtil {
 
     static {
         try {
-            // Load database properties
+            // Load database
             Properties dbProps = new Properties();
             InputStream is = DatabaseUtil.class.getClassLoader().getResourceAsStream("database.properties");
             if (is != null) {

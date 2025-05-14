@@ -20,20 +20,20 @@ public class AuthFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
-        // Get the Authorization header from the request
+        // uzima authorization header iz requesta
         String authHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
 
-        // Validate the Authorization header
+        // authentikacija
         if (authHeader == null || !authHeader.startsWith(BEARER_PREFIX)) {
             abortWithUnauthorized(requestContext, "Authorization header is missing or invalid");
             return;
         }
 
-        // Extract the token from the Authorization header
+        // uzima token koji se proverava
         String token = authHeader.substring(BEARER_PREFIX.length()).trim();
 
         try {
-            // Validate the token
+            // validacija tokena
             String username = JWTUtil.verifyToken(token);
 
             // Set the user as a request property

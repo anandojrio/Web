@@ -7,6 +7,7 @@ import java.util.Date;
 public class Comment {
     private static int nextId = 1;
 
+    // polja
     private int id;
     private int postId;
     @Column(nullable = false)

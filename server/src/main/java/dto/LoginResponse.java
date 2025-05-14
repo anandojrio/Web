@@ -12,7 +12,6 @@ public class LoginResponse {
         this.username = username;
     }
 
-    // Getters and setters
     public String getToken() {
         return token;
     }

@@ -30,14 +30,14 @@ public class CommentResource {
             return Response.status(404).entity("Post not found").build();
         }
 
-        // Get username from JWT token
+        // nadje usernamen po JWT tokenu
         String username = (String) requestContext.getProperty("username");
         if (username == null) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
 
         comment.setPostId(postId);
-        comment.setAuthor(username);  // Set author automatically
+        comment.setAuthor(username);  // vuce author name iz baze automatski
         post.addComment(comment);
         return Response.status(201).entity(comment).build();
     }

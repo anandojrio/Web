@@ -9,6 +9,8 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
 
+// REQUIRE AUTHENTICATION
+
 @NameBinding
 @Retention(RetentionPolicy.RUNTIME)
 @Target({TYPE, METHOD})
