@@ -15,7 +15,7 @@
               {{ post.content.length > 400 ? post.content.slice(0, 400) + '...' : post.content }}
             </p>
 
-            <!-- DETALJI JEDNOJ SE OTVARAJU -->
+            <!-- DETALJI O JEDNOJ SE OTVARAJU -->
             <a class="card-link" @click.prevent="goToPost(post.id)">More...</a>
           </div>
         </div>

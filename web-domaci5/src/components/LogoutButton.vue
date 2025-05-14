@@ -38,6 +38,7 @@ const toast = ref({
   type: 'success' as 'success' | 'error',
 })
 
+//notifikacija
 function showToast(message: string, type: 'success' | 'error' = 'success') {
   toast.value.message = message
   toast.value.type = type

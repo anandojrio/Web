@@ -4,6 +4,8 @@ const api = axios.create({
   baseURL: 'http://localhost:8080/api',
 })
 
+//SLANJE JWT BEARER
+
 api.interceptors.request.use((config) => {
   const user = JSON.parse(localStorage.getItem('user') || 'null')
   if (user?.token) {

@@ -8,7 +8,7 @@ const routes = [
   {
     path: '/',
     name: 'auth',
-    component: AuthView, // Login/Register page is the root page
+    component: AuthView, //prvo otvara login/register
   },
   {
     path: '/posts',
@@ -32,20 +32,20 @@ const router = createRouter({
   routes,
 })
 
-// Navigation guard
+// Navigation guard da ne bi mogao druge stranice ako nije ulogovan
 router.beforeEach((to, from, next) => {
   const loggedIn = !!localStorage.getItem('user')
 
-  // All routes except "/" are protected
+  // sve rute osim auth moraju biti verifikovane
   const isAuthPage = to.path === '/'
   const isProtected = !isAuthPage
 
   if (isProtected && !loggedIn) {
-    // Not logged in, trying to access a protected route
+    // prosledjuje na /auth ako je izlogovan
     return next({ name: 'auth' })
   }
   if (isAuthPage && loggedIn) {
-    // Logged in, trying to access login/register page
+    // ulogovan a zeli da se opet uloguje
     return next({ name: 'posts' })
   }
   next()

@@ -86,6 +86,7 @@ function showToast(message: string, type: 'success' | 'error' = 'success') {
   setTimeout(() => (toast.value.show = false), 3000)
 }
 
+// na pokretanju fetch sve postove
 async function fetchPost() {
   const user = localStorage.getItem('user')
   if (!user) {
@@ -96,6 +97,7 @@ async function fetchPost() {
 
 onMounted(fetchPost)
 
+//novi comment handle
 async function submitComment() {
   if (!commentContent.value.trim()) {
     showToast('Molimo Vas da unesete komentar!', 'error')
@@ -106,6 +108,7 @@ async function submitComment() {
     const newComment: CreateCommentData = {
       content: commentContent.value,
     }
+    //salje se samo content
 
     await PostService.addCommentToPost(postId, newComment)
     showToast('Komentar dodat!', 'success')

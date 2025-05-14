@@ -1,4 +1,4 @@
-// src/models/Post.ts
+// tipovi podataka
 
 export interface Comment {
   id: number

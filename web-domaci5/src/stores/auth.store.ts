@@ -2,6 +2,8 @@ import { defineStore } from 'pinia'
 import router from '@/router'
 import AuthService from '@/services/auth.service'
 
+// da bih koristio piniu za authentikaciju
+
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     user: JSON.parse(localStorage.getItem('user') || 'null') as {
@@ -26,9 +28,8 @@ export const useAuthStore = defineStore('auth', {
     async register(username: string, password: string) {
       try {
         await AuthService.register(username, password)
-        // Optionally, auto-login after registration:
+        // moze da se automatski uloguje, ako treba
         // await this.login(username, password)
-        // Or just notify user to login:
       } catch (error) {
         throw error
       }

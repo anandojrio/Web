@@ -68,6 +68,7 @@ const toast = ref({
   type: 'success' as 'success' | 'error',
 })
 
+//na otvaranju stranice
 onMounted(async () => {
   const user = localStorage.getItem('user')
   if (!user) {

@@ -74,19 +74,19 @@ const password = ref('')
 const error = ref('')
 const authStore = useAuthStore()
 
+// na dugme
 async function onSubmit() {
   error.value = ''
   try {
     if (mode.value === 'login') {
       await authStore.login(username.value, password.value)
-      router.push({ name: 'posts' }) // Only redirect after successful login
+      router.push({ name: 'posts' }) // prebacuje na /posts
     } else {
       await authStore.register(username.value, password.value)
       mode.value = 'login'
       username.value = ''
       password.value = ''
       error.value = 'Registration successful! Please login.'
-      // Do NOT redirect to posts after registration, let user login
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (e: any) {
