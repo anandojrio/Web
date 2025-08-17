@@ -45,7 +45,7 @@ router.beforeEach((to, from, next) => {
     return next({ name: 'auth' })
   }
   if (isAuthPage && loggedIn) {
-    // ulogovan a zeli da se opet uloguje
+    // upravo zavrsio logovanje -> redirect na listu svih postova
     return next({ name: 'posts' })
   }
   next()

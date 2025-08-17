@@ -86,7 +86,7 @@ function showToast(message: string, type: 'success' | 'error' = 'success') {
   setTimeout(() => (toast.value.show = false), 3000)
 }
 
-// na pokretanju fetch sve postove
+// na pokretanju fetch konkretni post
 async function fetchPost() {
   const user = localStorage.getItem('user')
   if (!user) {
@@ -113,7 +113,7 @@ async function submitComment() {
     await PostService.addCommentToPost(postId, newComment)
     showToast('Komentar dodat!', 'success')
     commentContent.value = ''
-    await fetchPost() // Reload comments
+    await fetchPost() // refresh
   } catch (error) {
     showToast('Neuspesno sacuvan komentar. Pokusajte ponovo.', 'error')
     console.error(error)

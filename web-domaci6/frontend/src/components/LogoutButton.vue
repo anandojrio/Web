@@ -51,7 +51,7 @@ function handleLogout() {
   showToast('Logged out successfully!', 'success')
   setTimeout(() => {
     router.push({ name: 'auth' })
-  }, 800) // short delay so toast is visible
+  }, 800)
 }
 </script>
 

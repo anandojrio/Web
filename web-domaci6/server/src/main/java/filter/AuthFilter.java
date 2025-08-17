@@ -23,7 +23,7 @@ public class AuthFilter implements ContainerRequestFilter {
         // uzima authorization header iz requesta
         String authHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
 
-        // authentikacija
+        // proverava format
         if (authHeader == null || !authHeader.startsWith(BEARER_PREFIX)) {
             abortWithUnauthorized(requestContext, "Authorization header is missing or invalid");
             return;
@@ -32,6 +32,7 @@ public class AuthFilter implements ContainerRequestFilter {
         // uzima token koji se proverava
         String token = authHeader.substring(BEARER_PREFIX.length()).trim();
 
+        // auth
         try {
             // validacija tokena
             String username = JWTUtil.verifyToken(token);
