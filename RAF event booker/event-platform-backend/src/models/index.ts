@@ -1,5 +1,5 @@
 import { sequelize } from '../config/db';
-import User from './User';
+import {User} from './User';
 import Event from './Event';
 import Category from './Category';
 import Tag from './Tag';

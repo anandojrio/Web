@@ -6,9 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.sequelize = void 0;
 const sequelize_1 = require("sequelize");
 const path_1 = __importDefault(require("path"));
+const dbPath = path_1.default.resolve(__dirname, '../../database.sqlite');
 const sequelize = new sequelize_1.Sequelize({
     dialect: 'sqlite',
-    storage: path_1.default.join(__dirname, '../../database.sqlite'), // Creates file in project root
-    logging: false
+    storage: dbPath,
+    logging: false, // Optional for debugging
 });
 exports.sequelize = sequelize;

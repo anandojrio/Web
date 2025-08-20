@@ -1,6 +1,8 @@
-import User from '../models/User';
+import { User } from '../models/User';
+import { CreationAttributes } from 'sequelize'; // Add this import
 
-interface AdminAttributes {
+// Use CreationAttributes<User> to ensure type safety
+interface AdminAttributes extends CreationAttributes<User> {
   email: string;
   firstName: string;
   lastName: string;
@@ -20,7 +22,6 @@ export default async function createAdmin(): Promise<User> {
       isActive: true
     };
 
-    // Check if admin exists
     const existingAdmin = await User.findOne({
       where: { email: adminData.email }
     });
@@ -30,7 +31,6 @@ export default async function createAdmin(): Promise<User> {
       return existingAdmin;
     }
 
-    // Create new admin
     const admin = await User.create(adminData);
     console.log('✅ Admin user created:', admin.email);
     return admin;
