@@ -5,12 +5,14 @@ import { hashPassword } from './utils/auth';
 import { User } from './models/User';
 import { Category } from './models/Category';
 import { Event } from './models/Event';
-import { Tag } from './models/Tag';
-import { EventTag } from './models/EventTag';
-
+import { RSVP } from './models/RSVP';
+import { Comment } from './models/Comment';
 
 import categoryRoutes from './routes/categories';
 import eventRoutes from './routes/events';
+import rsvpRoutes from './routes/rsvp';
+import commentRoutes from './routes/comments';
+
 
 // Import route files
 import authRoutes from './routes/auth';
@@ -24,6 +26,11 @@ console.log('🚀 Starting RAF Event Booker Backend...');
 app.use(cors()); // Allow cross-origin requests
 app.use(express.json()); // Parse JSON request bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
+
+User.hasMany(RSVP, { foreignKey: 'userId', as: 'rsvps' });
+Event.hasMany(RSVP, { foreignKey: 'eventId', as: 'rsvps' });
+RSVP.belongsTo(User, { foreignKey: 'userId', as: 'user' });
+RSVP.belongsTo(Event, { foreignKey: 'eventId', as: 'event' });
 
 console.log('✅ Middleware configured');
 
@@ -50,6 +57,9 @@ app.get('/api/test', (req: Request, res: Response) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/events', eventRoutes);
+app.use('/api/events', rsvpRoutes);
+app.use('/api', commentRoutes);
+
 
 
 // 404 handler for unknown routes

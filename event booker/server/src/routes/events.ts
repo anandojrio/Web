@@ -4,8 +4,6 @@ import { Category } from '../models/Category';
 import { User } from '../models/User';
 import { authenticate, requireEventCreatorOrAdmin } from '../middleware/auth';
 import { Tag } from '../models/Tag';
-import { EventTag } from '../models/EventTag';
-
 
 const router = Router();
 
@@ -14,7 +12,7 @@ const router = Router();
  */
 router.post('/', authenticate, requireEventCreatorOrAdmin, async (req: Request, res: Response) => {
   try {
-    const { title, description, eventDate, location, categoryId, maxCapacity } = req.body;
+    const { title, description, eventDate, location, categoryId, maxCapacity, tags } = req.body;
     const authorId = req.user!.userId;
 
     // Validate required fields
@@ -38,7 +36,27 @@ router.post('/', authenticate, requireEventCreatorOrAdmin, async (req: Request, 
       maxCapacity: maxCapacity !== undefined ? maxCapacity : null,
     });
 
-    res.status(201).json({ success: true, data: event });
+    // Type-safe tag associations
+    if (Array.isArray(tags)) {
+      await (event as any).setTags([]); // Remove previous tags, should be empty on creation but safe!
+      for (const tagName of tags) {
+        const trimmed = tagName.trim();
+        if (!trimmed) continue;
+        let [tag] = await Tag.findOrCreate({ where: { name: trimmed } });
+        await (event as any).addTag(tag);
+      }
+    }
+
+    // Fetch event with tags for response
+    const eventWithTags = await Event.findByPk(event.id, {
+      include: [
+        { model: Category, as: 'category', attributes: ['id', 'name'] },
+        { model: User, as: 'author', attributes: ['id', 'email', 'firstName', 'lastName'] },
+        { model: Tag, as: 'tags', through: { attributes: [] } }
+      ]
+    });
+
+    res.status(201).json({ success: true, data: eventWithTags });
   } catch (error) {
     console.error('Create event error:', error);
     res.status(500).json({ success: false, error: 'Internal server error' });
@@ -47,7 +65,6 @@ router.post('/', authenticate, requireEventCreatorOrAdmin, async (req: Request, 
 
 /**
  * Get ALL events (public, with pagination)
- * Query: /api/events?page=1&limit=10
  */
 router.get('/', async (req: Request, res: Response) => {
   try {
@@ -62,6 +79,7 @@ router.get('/', async (req: Request, res: Response) => {
       include: [
         { model: Category, as: 'category', attributes: ['id', 'name'] },
         { model: User, as: 'author', attributes: ['id', 'email', 'firstName', 'lastName'] },
+        { model: Tag, as: 'tags', through: { attributes: [] } }
       ],
     });
 
@@ -88,6 +106,7 @@ router.get('/:id', async (req: Request, res: Response) => {
       include: [
         { model: Category, as: 'category', attributes: ['id', 'name'] },
         { model: User, as: 'author', attributes: ['id', 'email', 'firstName', 'lastName'] },
+        { model: Tag, as: 'tags', through: { attributes: [] } }
       ],
     });
 
@@ -95,7 +114,6 @@ router.get('/:id', async (req: Request, res: Response) => {
       return res.status(404).json({ success: false, error: 'Event not found.' });
     }
 
-    // Increment view count (optional: only once per session/user later)
     event.views += 1;
     await event.save();
 
@@ -112,7 +130,7 @@ router.get('/:id', async (req: Request, res: Response) => {
 router.put('/:id', authenticate, requireEventCreatorOrAdmin, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { title, description, eventDate, location, categoryId, maxCapacity } = req.body;
+    const { title, description, eventDate, location, categoryId, maxCapacity, tags } = req.body;
 
     const event = await Event.findByPk(id);
     if (!event) {
@@ -134,6 +152,27 @@ router.put('/:id', authenticate, requireEventCreatorOrAdmin, async (req: Request
     }
 
     await event.save();
+
+    // Type-safe tag update
+    if (Array.isArray(tags)) {
+      await (event as any).setTags([]); // Remove all previous tags
+      for (const tagName of tags) {
+        const trimmed = tagName.trim();
+        if (!trimmed) continue;
+        let [tag] = await Tag.findOrCreate({ where: { name: trimmed } });
+        await (event as any).addTag(tag);
+      }
+    }
+
+    // Reload with tags for response
+    await event.reload({
+      include: [
+        { model: Category, as: 'category', attributes: ['id', 'name'] },
+        { model: User, as: 'author', attributes: ['id', 'email', 'firstName', 'lastName'] },
+        { model: Tag, as: 'tags', through: { attributes: [] } }
+      ]
+    });
+
     res.json({ success: true, data: event });
   } catch (error) {
     console.error('Update event error:', error);

@@ -59,6 +59,9 @@ Event.init(
 
 import { Tag } from './Tag';
 import { EventTag } from './EventTag';
+import { Comment } from './Comment';
+
+Event.hasMany(Comment, { foreignKey: 'eventId', as: 'comments' });
 
 // Many-to-many: Event <-> Tag via EventTag
 Event.belongsToMany(Tag, { through: EventTag, foreignKey: 'eventId', as: 'tags' });
