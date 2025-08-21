@@ -7,11 +7,14 @@ import { Category } from './models/Category';
 import { Event } from './models/Event';
 import { RSVP } from './models/RSVP';
 import { Comment } from './models/Comment';
+import { EventReaction } from './models/EventReaction';
+
 
 import categoryRoutes from './routes/categories';
 import eventRoutes from './routes/events';
 import rsvpRoutes from './routes/rsvp';
 import commentRoutes from './routes/comments';
+import tagRoutes from './routes/tags';
 
 
 // Import route files
@@ -31,7 +34,10 @@ User.hasMany(RSVP, { foreignKey: 'userId', as: 'rsvps' });
 Event.hasMany(RSVP, { foreignKey: 'eventId', as: 'rsvps' });
 RSVP.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 RSVP.belongsTo(Event, { foreignKey: 'eventId', as: 'event' });
-
+User.hasMany(EventReaction, { foreignKey: 'userId', as: 'eventReactions' });
+Event.hasMany(EventReaction, { foreignKey: 'eventId', as: 'reactions' });
+EventReaction.belongsTo(User, { foreignKey: 'userId', as: 'user' });
+EventReaction.belongsTo(Event, { foreignKey: 'eventId', as: 'event' });
 console.log('✅ Middleware configured');
 
 // Health check route
@@ -59,6 +65,7 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/events', rsvpRoutes);
 app.use('/api', commentRoutes);
+app.use('/api',tagRoutes);
 
 
 

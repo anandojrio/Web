@@ -1,5 +1,8 @@
 import { Router, Request, Response } from 'express';
 import { Category } from '../models/Category';
+import { Event } from '../models/Event';
+import { User } from '../models/User';
+import { Tag } from '../models/Tag';
 import { authenticate, requireEventCreatorOrAdmin } from '../middleware/auth';
 
 const router = Router();
@@ -58,6 +61,31 @@ router.get('/:id', async (req: Request, res: Response) => {
   }
 });
 
+// GET all events in a given category (PUBLIC)
+router.get('/:categoryId/events', async (req: Request, res: Response) => {
+  try {
+    const categoryId = parseInt(req.params.categoryId);
+    const category = await Category.findByPk(categoryId);
+    if (!category) {
+      return res.status(404).json({ success: false, error: 'Category not found.' });
+    }
+
+    const events = await Event.findAll({
+      where: { categoryId },
+      include: [
+        { model: Tag, as: 'tags', through: { attributes: [] } },
+        { model: Category, as: 'category', attributes: ['id', 'name'] },
+        { model: User, as: 'author', attributes: ['id', 'email', 'firstName', 'lastName'] }
+      ]
+    });
+
+    res.json({ success: true, data: events });
+  } catch (error) {
+    console.error('Get events by categoryId error:', error);
+    res.status(500).json({ success: false, error: 'Internal server error' });
+  }
+});
+
 // UPDATE a category (only for event creator or admin)
 router.put(
   '/:id',
@@ -106,7 +134,7 @@ router.delete(
         return res.status(404).json({ success: false, error: 'Category not found.' });
       }
 
-      // TODO: Prevent deletion if events exist in this category (add this after event model)
+      // TODO: Prevent deletion if events exist in this category
 
       await category.destroy();
       res.json({ success: true, message: 'Category deleted' });
