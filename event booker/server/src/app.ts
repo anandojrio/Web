@@ -26,7 +26,10 @@ const PORT = process.env.PORT || 5000;
 console.log('🚀 Starting RAF Event Booker Backend...');
 
 // Middleware
-app.use(cors()); // Allow cross-origin requests
+app.use(cors({
+  origin: 'http://localhost:5173', // Frontend URL
+  credentials: true,                // Allow cookies, authorization headers, etc.
+}));
 app.use(express.json()); // Parse JSON request bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 

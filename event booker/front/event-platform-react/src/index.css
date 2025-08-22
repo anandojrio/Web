@@ -1,0 +1,87 @@
+:root {
+  --main-bg: #040B11;      
+  --section-bg: #2D322C;  /* For section/card backgrounds */
+  --accent-green: #CEE056;
+  --text-main: #F3F3F2;
+  --accent-gold: #EBC61D;
+}
+
+
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: #040B11; /* your darkest palette color throughout */
+}
+
+.pageContainer {
+  background: transparent;       /* Let body handle overall BG */
+  min-height: 100vh;
+  color: var(--text-main);
+  padding: 38px 28px 28px 28px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  /* Optionally remove max-width if you always want full width */
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+.sectionsRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 32px;
+  margin-top: 24px;
+  width: 100%;
+}
+
+.section {
+  flex: 1 1 0;
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 6px 34px 0 #000c0c3a;
+  min-width: 0;
+  min-height: 400px;
+  color: var(--text-main);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sectionTitle {
+  font-size: 1.18rem;
+  font-weight: bold;
+  margin-bottom: 12px;
+  color: var(--card-accent);
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
+.eventCard {
+  width: 97%;
+  background: var(--main-bg);
+  border-radius: 8px;
+  padding: 17px 12px;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 10px #000c0c55;
+  color: var(--text-main);
+  text-align: left;
+  border: 1px solid var(--card-accent);
+  transition: box-shadow 0.15s, transform 0.1s;
+}
+.eventCard:hover {
+  box-shadow: 0 8px 40px #EBC61D33;
+  transform: scale(1.01);
+}
+.eventCard strong {
+  color: var(--card-accent);
+  font-size: 1.09rem;
+}
+.eventMeta {
+  color: #B6C59F;
+  font-size: 0.98rem;
+  margin: 3px 0 7px 0;
+}
+
+

@@ -1,0 +1,57 @@
+:root {
+  --main-bg: #040B11;
+  --card-bg: #2D322C;
+  --accent-lime: #CEE056;
+  --accent-gold: #EBC61D;
+  --text-main: #F3F3F2;
+}
+
+.widget {
+  position: fixed;
+  top: 88px;       /* below navbar */
+  right: 32px;
+  width: 250px;
+  background: var(--card-bg);
+  color: var(--text-main);
+  border: 2px solid var(--accent-lime);
+  border-radius: 12px;
+  box-shadow: 0 2px 24px #000b12bb;
+  padding: 14px 16px 10px 16px;
+  z-index: 1001;
+  font-size: 0.97rem;
+  opacity: 0.96;
+}
+
+@media (max-width: 950px) {
+  .widget {
+    display: none; /* Hide on small screens */
+  }
+}
+
+.title {
+  text-align: center;
+  color: var(--accent-gold);
+  font-size: 1.05em;
+  font-weight: 700;
+  margin-bottom: 13px;
+  letter-spacing: 0.015em;
+  line-height: 1.09;
+}
+.list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.item {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.link {
+  color: var(--accent-lime);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.99em;
+  transition: color
+}
