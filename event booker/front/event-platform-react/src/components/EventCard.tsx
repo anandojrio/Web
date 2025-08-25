@@ -12,33 +12,45 @@ type Event = {
   category?: { id: number; name: string };
   tags?: { id: number; name: string }[];
   author?: { firstName: string; lastName: string };
-  // Add other fields as needed
 };
 
 type Props = {
   event: Event;
   onView?: (id: number) => void;
+  children?: React.ReactNode; // For admin-specific buttons (Edit/Delete)
 };
 
-const EventCard: React.FC<Props> = ({ event, onView }) => {
-  return (
-    <div className="event-card" style={{border: "1px solid #ccc", padding: 16, borderRadius: 8, margin: 8}}>
-      <h2>{event.title}</h2>
-      <p><strong>Datum:</strong> {new Date(event.eventDate).toLocaleString('sr-RS')}</p>
-      <p><strong>Lokacija:</strong> {event.location}</p>
-      <p><strong>Kategorija:</strong> {event.category?.name}</p>
-      <p>
-        <strong>Tagovi:</strong>{" "}
-        {event.tags?.map(tag => tag.name).join(", ")}
-      </p>
-      <p>
-        ❤️ {event.likeCount ?? 0}
-        {" "}
-        💔 {event.dislikeCount ?? 0}
-      </p>
-      <button onClick={() => onView?.(event.id)}>Detalji</button>
+const EventCard: React.FC<Props> = ({ event, onView, children }) => (
+  <div className="eventCard">
+    <h2 className="eventTitle">{event.title}</h2>
+    <div className="eventMeta">
+      {event.category && (
+        <span className="eventCategory">{event.category.name}</span>
+      )}
+      <span className="eventDate">
+        {new Date(event.eventDate).toLocaleString("sr-RS")}
+      </span>
     </div>
-  );
-};
+    <div className="eventDesc">{event.description}</div>
+    <div className="eventMeta" style={{ margin: "10px 0 2px 0" }}>
+      <strong>Lokacija:</strong> {event.location}
+    </div>
+    {event.tags && event.tags.length > 0 && (
+      <div style={{ margin: "5px 0" }}>
+        <strong>Tagovi:</strong> {event.tags.map(tag => tag.name).join(", ")}
+      </div>
+    )}
+    <div className="eventMeta">
+      <span style={{ color: "#EF5050" }}>❤️ {event.likeCount ?? 0}</span>
+      <span style={{ color: "#EBC61D", marginLeft: 15 }}>
+        💔 {event.dislikeCount ?? 0}
+      </span>
+    </div>
+    <button className="eventCardBtn" onClick={() => onView?.(event.id)}>
+      Detalji
+    </button>
+    {children}
+  </div>
+);
 
 export default EventCard;

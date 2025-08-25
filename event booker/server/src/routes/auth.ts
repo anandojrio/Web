@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { User } from '../models/User';
 import { hashPassword, comparePassword, generateToken } from '../utils/auth';
+import { authenticate } from '../middleware/auth';
 
 const router = Router();
 
@@ -112,6 +113,11 @@ router.post('/login', async (req, res) => {
     // Generate JWT token
     const token = generateToken(user.id, user.role);
 
+    res.cookie("token", token, {
+    httpOnly: true,
+    sameSite: "lax", // or "none" if using HTTPS on localhost
+    secure: false    // true if using HTTPS in production
+});
     // Return user data (without password) and token
     res.json({
       success: true,
@@ -124,8 +130,7 @@ router.post('/login', async (req, res) => {
           lastName: user.lastName,
           role: user.role,
           isActive: user.isActive
-        },
-        token
+        }
       }
     });
 
@@ -138,14 +143,39 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// GET /api/auth/test
-// Test route to verify auth routes are working
-router.get('/test', (req, res) => {
-  res.json({
-    success: true,
-    message: 'Auth routes are working!',
-    timestamp: new Date().toISOString()
+// POST /api/auth/logout
+router.post('/logout',authenticate, (req, res) => {
+  // Clear the JWT token cookie
+  res.clearCookie('token', {
+    httpOnly: true,
+    sameSite: 'lax', // or 'none' for cross-site with HTTPS
+    secure: false    // true only for HTTPS
   });
+  res.json({ success: true, message: 'Logged out successfully' });
 });
+
+
+// GET /api/auth/me – return currently logged-in user's info, or 401 if not authenticated
+router.get('/me',authenticate ,async (req, res) => {
+  try {
+    // If using JWT verified via middleware, req.user should be set with userId and role
+    // If using sessions, req.session.userId and req.session.role etc.
+    // Adjust according to your middleware!
+    const userId = req.user?.userId; 
+    if (!userId) {
+      return res.status(401).json({ success: false, error: 'Not authenticated' });
+    }
+    const user = await User.findByPk(userId, {
+      attributes: ['id', 'email', 'firstName', 'lastName', 'role', 'isActive']
+    });
+    if (!user) {
+      return res.status(404).json({ success: false, error: 'User not found' });
+    }
+    res.json({ success: true, data: user });
+  } catch (error) {
+    res.status(500).json({ success: false, error: 'Internal server error' });
+  }
+});
+
 
 export default router;

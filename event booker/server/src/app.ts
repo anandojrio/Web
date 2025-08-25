@@ -16,9 +16,9 @@ import rsvpRoutes from './routes/rsvp';
 import commentRoutes from './routes/comments';
 import tagRoutes from './routes/tags';
 
-
 // Import route files
 import authRoutes from './routes/auth';
+import cookieParser from 'cookie-parser';
 
 const app: Application = express();
 const PORT = process.env.PORT || 5000;
@@ -61,6 +61,8 @@ app.get('/api/test', (req: Request, res: Response) => {
     timestamp: new Date().toISOString()
   });
 });
+
+app.use(cookieParser());
 
 // Mount routes
 app.use('/api/auth', authRoutes);

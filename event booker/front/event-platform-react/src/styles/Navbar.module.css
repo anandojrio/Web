@@ -22,22 +22,25 @@
 .navLeft,
 .navRight {
   display: flex;
-  gap: 19px;
+  gap: 10px;
   align-items: center;
-  flex: 1;
+  flex: 0 0 300px;   /* Force equal width for left and right */
+  min-width: 210px;  /* Adjust for your content */
 }
-
 .navLeft { justify-content: flex-start; }
 .navRight { justify-content: flex-end; }
 
 .navTitle {
   text-align: center;
-  flex: 2;
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   user-select: none;
+  justify-content: center;
+  min-width: 0;
 }
+
 .mainTitle {
   color: var(--accent-gold);
   font-size: 1.35rem;
@@ -56,7 +59,7 @@
   color: var(--card-accent);
   text-decoration: none;
   font-weight: 600;
-  padding: 7px 18px;
+  padding: 7px 8px;
   border-radius: 6px;
   transition: background 0.15s, color 0.15s;
   font-size: 1rem;
@@ -114,7 +117,8 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  margin-left: 18px;
+  margin-left: 2px;
+  margin-right: 10px;
 }
 .searchInput {
   border: none;
@@ -127,6 +131,9 @@
   transition: box-shadow 0.2s;
   box-shadow: 0 2px 10px #040B1136;
   border-right: 2px solid var(--card-accent);
+  max-width: 100px;
+  min-width: 68px;
+  width: 100%;
 }
 .searchInput:focus {
   box-shadow: 0 4px 18px var(--card-accent);
@@ -144,14 +151,22 @@
   font-size: 1rem;
   border-radius: 0 15px 15px 0;
   padding: 8px 15px 8px 11px;
-  cursor: pointer;
+  cursor:text;
   font-weight: bold;
   transition: background 0.15s, filter 0.13s;
   box-shadow: 0 2px 10px #040B1136;
   border-left: 1px solid var(--main-bg);
+  margin-right: 10px;
 }
 .searchButton:hover {
   background: var(--accent-gold);
   color: var(--main-bg);
   filter: brightness(0.94);
+}
+
+.navUsername {
+  color: var(--card-accent);
+  font-size: 1.02em;
+  font-weight: 600;
+  margin-right: 10px;
 }

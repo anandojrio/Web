@@ -1,0 +1,99 @@
+.container {
+  max-width: 800px;
+  margin: 34px auto;
+  background: var(--card-bg);
+  color: var(--text-main);
+  border-radius: 11px;
+  box-shadow: 0 2px 22px #000c;
+  padding: 32px 28px 30px 28px;
+}
+.addBtn {
+  background: var(--card-accent);
+  color: var(--main-bg);
+  border: none;
+  font-weight: 700;
+  border-radius: 7px;
+  margin-bottom: 18px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 1.07em;
+  margin-right: 8px;
+  transition: background 0.2s;
+}
+.addBtn:hover { background: var(--accent-gold);}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 13px;
+  background: var(--main-bg);
+  border-radius: 7px;
+}
+th, td {
+  padding: 10px 18px;
+  text-align: left;
+  border-bottom: 1px solid #383d35;
+}
+th {
+  background: #242A31;
+  color: var(--accent-gold);
+}
+tr:last-child td { border-bottom: none; }
+.actionBtn {
+  margin-right: 8px;
+  background: var(--card-accent);
+  color: var(--main-bg);
+  border: none;
+  border-radius: 5px;
+  padding: 5px 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.actionBtn:hover:enabled { background: var(--accent-gold);}
+.cancelBtn {
+  background: #2D322C;
+  color: #EBC61D;
+  border: 1px solid #EBC61D;
+  border-radius: 5px;
+  margin-left: 9px;
+  padding: 5px 13px;
+  cursor: pointer;
+}
+.cancelBtn:hover { background: #393f48; color: #CEE056; }
+.error {
+  color: #EBC61D;
+  margin-top: 9px;
+}
+.modalBackdrop {
+  position: fixed;
+  z-index: 1002;
+  left: 0; top: 0; right: 0; bottom: 0;
+  background: #000b;
+  display: flex; align-items: center; justify-content: center;
+}
+.modal {
+  background: var(--main-bg);
+  color: var(--text-main);
+  border-radius: 10px;
+  padding: 26px 30px 20px 30px;
+  width: 350px;
+  box-shadow: 0 3px 30px #000b;
+}
+.modalActions {
+  margin-top: 14px;
+  display: flex;
+  justify-content: flex-end;
+}
+input, textarea {
+  width: 100%;
+  border-radius: 6px;
+  border: none;
+  margin: 3px 0 14px 0;
+  padding: 7px 10px;
+  font-size: 1rem;
+  background: #232622;
+  color: var(--text-main);
+}
+input:focus, textarea:focus {
+  outline: 2px solid var(--card-accent);
+}

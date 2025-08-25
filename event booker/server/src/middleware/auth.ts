@@ -15,31 +15,29 @@ declare global {
   }
 }
 
-// Middleware to check if user is authenticated
+// Middleware to check if user is authenticated (supports cookie and header)
 export const authenticate = (req: Request, res: Response, next: NextFunction) => {
   try {
-    // Get token from Authorization header (format: "Bearer token")
+    // Prefer token from cookie, fallback to Authorization header
     const authHeader = req.header('Authorization');
-    
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({ 
+    const token =
+      req.cookies?.token ||
+      (authHeader && authHeader.startsWith("Bearer ") ? authHeader.substring(7) : null);
+
+    if (!token) {
+      return res.status(401).json({
         success: false,
-        error: 'Access denied. No token provided.' 
+        error: 'Access denied. No token provided.'
       });
     }
 
-    // Extract token (remove "Bearer " prefix)
-    const token = authHeader.substring(7);
-    
-    // Verify token and get user data
     const decoded = verifyToken(token);
-    req.user = decoded; // Attach user data to request object
-    
-    next(); // Continue to next middleware/route handler
+    req.user = decoded; // decoded: { userId, role, iat, exp }
+    next();
   } catch (error) {
-    res.status(401).json({ 
+    res.status(401).json({
       success: false,
-      error: 'Invalid or expired token.' 
+      error: 'Invalid or expired token.'
     });
   }
 };
@@ -48,23 +46,20 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
 export const requireRole = (allowedRoles: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
     if (!req.user) {
-      return res.status(401).json({ 
+      return res.status(401).json({
         success: false,
-        error: 'Authentication required.' 
+        error: 'Authentication required.'
       });
     }
-    
     if (!allowedRoles.includes(req.user.role)) {
-      return res.status(403).json({ 
+      return res.status(403).json({
         success: false,
-        error: 'Insufficient permissions.' 
+        error: 'Insufficient permissions.'
       });
     }
-    
-    next(); // User has required role, continue
+    next();
   };
 };
 
-// Helper middleware combinations
 export const requireAdmin = requireRole(['admin']);
 export const requireEventCreatorOrAdmin = requireRole(['event creator', 'admin']);
