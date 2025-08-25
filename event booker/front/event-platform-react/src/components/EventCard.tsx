@@ -1,5 +1,6 @@
-// src/components/EventCard.tsx
 import React from "react";
+import { Link } from "react-router-dom";
+import homeStyles from "../styles/HomePage.module.css";
 
 type Event = {
   id: number;
@@ -16,23 +17,26 @@ type Event = {
 
 type Props = {
   event: Event;
-  onView?: (id: number) => void;
-  children?: React.ReactNode; // For admin-specific buttons (Edit/Delete)
+  children?: React.ReactNode; // For admin-specific buttons (Izmeni/Obriši)
 };
 
-const EventCard: React.FC<Props> = ({ event, onView, children }) => (
-  <div className="eventCard">
-    <h2 className="eventTitle">{event.title}</h2>
-    <div className="eventMeta">
+const EventCard: React.FC<Props> = ({ event, children }) => (
+  <div className={homeStyles.eventCard}>
+    <Link to={`/dogadjaj/${event.id}`} className={homeStyles.eventTitle}>
+      {event.title}
+    </Link>
+    <div className={homeStyles.eventMeta}>
       {event.category && (
-        <span className="eventCategory">{event.category.name}</span>
+        <span className={homeStyles.eventCategory}>{event.category.name}</span>
       )}
-      <span className="eventDate">
+      <span className={homeStyles.eventDate}>
         {new Date(event.eventDate).toLocaleString("sr-RS")}
       </span>
     </div>
-    <div className="eventDesc">{event.description}</div>
-    <div className="eventMeta" style={{ margin: "10px 0 2px 0" }}>
+    <div className={homeStyles.eventDesc}>
+      {event.description?.length > 0 ? event.description : ""}
+    </div>
+    <div className={homeStyles.eventMeta}>
       <strong>Lokacija:</strong> {event.location}
     </div>
     {event.tags && event.tags.length > 0 && (
@@ -40,15 +44,12 @@ const EventCard: React.FC<Props> = ({ event, onView, children }) => (
         <strong>Tagovi:</strong> {event.tags.map(tag => tag.name).join(", ")}
       </div>
     )}
-    <div className="eventMeta">
+    <div className={homeStyles.eventMeta}>
       <span style={{ color: "#EF5050" }}>❤️ {event.likeCount ?? 0}</span>
       <span style={{ color: "#EBC61D", marginLeft: 15 }}>
         💔 {event.dislikeCount ?? 0}
       </span>
     </div>
-    <button className="eventCardBtn" onClick={() => onView?.(event.id)}>
-      Detalji
-    </button>
     {children}
   </div>
 );

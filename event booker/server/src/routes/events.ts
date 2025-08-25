@@ -71,7 +71,20 @@ router.get('/', async (req: Request, res: Response) => {
     const limit = parseInt(req.query.limit as string) || 10;
     const offset = (page - 1) * limit;
 
+    // NEW: Get search query param (supports ?q= or ?search=)
+    const search = (req.query.q || req.query.search || "").toString().trim();
+
+    // NEW: Build where condition for search
+    const where: any = {};
+    if (search.length > 0) {
+      where[Op.or] = [
+        { title: { [Op.like]: `%${search}%` } },
+        { description: { [Op.like]: `%${search}%` } },
+      ];
+    }
+
     const { count, rows } = await Event.findAndCountAll({
+      where, // <--- add this line!
       order: [['createdAt', 'DESC']],
       offset,
       limit,

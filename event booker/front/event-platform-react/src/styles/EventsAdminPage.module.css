@@ -1,87 +1,9 @@
-/* Palette from your site */
 :root {
   --main-bg: #040B11;
   --section-bg: #282626;
   --card-accent: #CEE056;
   --text-main: #F3F3F2;
   --accent-gold: #EBC61D;
-}
-
-/* Main button style for this site (matches navbar look & feel) */
-.button,
-.eventCardBtn,
-.addBtn,
-.actionBtn {
-  background: var(--card-accent);
-  color: var(--main-bg);
-  border: none;
-  border-radius: 8px;
-  padding: 10px 22px;
-  font-weight: 700;
-  font-size: 1.07em;
-  box-shadow: 0 2px 12px #23260c28;
-  cursor: pointer;
-  transition: background 0.14s, transform 0.11s;
-  outline: none;
-  margin: 0 7px 0 0;
-  letter-spacing: 0.01em;
-  position: relative;
-}
-
-/* Add spacing if buttons are in a horizontal row */
-.eventCardActions,
-.cardActions {
-  display: flex;
-  gap: 16px;
-  margin-top: 12px;
-  margin-bottom: 3px;
-}
-
-/* Hover and click interactions, matching navbar look */
-.button:hover,
-.eventCardBtn:hover,
-.addBtn:hover,
-.actionBtn:hover {
-  background: var(--accent-gold);
-  color: var(--main-bg);
-  transform: translateY(-1px) scale(1.035);
-  box-shadow: 0 4px 26px #EBC61D23;
-}
-
-/* Disabled style for consistency */
-.button:disabled,
-.eventCardBtn:disabled,
-.addBtn:disabled,
-.actionBtn:disabled {
-  opacity: 0.6;
-  pointer-events: none;
-  background: #c1c5b0;
-  color: #444;
-}
-
-/* For paging buttons if using navbar look */
-.pagination button {
-  background: var(--card-accent);
-  color: var(--main-bg);
-  border: none;
-  border-radius: 7px;
-  padding: 10px 17px 10px 17px;
-  font-size: 1em;
-  font-weight: 700;
-  margin: 0 7px;
-  cursor: pointer;
-  transition: background 0.13s, transform 0.11s;
-}
-.pagination button:hover {
-  background: var(--accent-gold);
-  color: var(--main-bg);
-  transform: scale(1.07);
-}
-
-/* Optional: modal action buttons */
-.modalActions .actionBtn {
-  min-width: 100px;
-  margin-left: 8px;
 }
 
 .container {
@@ -104,24 +26,6 @@ h2 {
   margin-top: 12px;
 }
 
-.addBtn {
-  background: var(--card-accent);
-  color: var(--main-bg);
-  font-weight: 700;
-  border: none;
-  border-radius: 7px;
-  margin-bottom: 20px;
-  padding: 12px 24px;
-  font-size: 1.08em;
-  margin-right: 8px;
-  transition: background 0.18s;
-  box-shadow: 0 2px 10px #23260c40;
-  cursor: pointer;
-}
-.addBtn:hover {
-  background: var(--accent-gold);
-}
-
 /* One card per row, stack vertically */
 .cardGrid {
   display: flex;
@@ -134,41 +38,43 @@ h2 {
   flex-direction: column;
 }
 
-/* Directly reuse eventCard, eventMeta, eventTitle etc. from homepage global or module CSS */
-
 .eventCardActions {
   display: flex;
-  gap: 14px;
+  gap: 16px;
   margin-top: 12px;
-  margin-left: 2px;
-}
-.eventCardBtn {
-  background: var(--card-accent);
-  color: var(--main-bg);
-  border: none;
-  border-radius: 7px;
-  padding: 7px 16px;
-  font-weight: 700;
-  margin-top: 10px;
-  margin-right: 10px;
-  cursor: pointer;
-  transition: background 0.13s;
-}
-.eventCardBtn:hover {
-  background: var(--accent-gold);
+  margin-bottom: 3px;
 }
 
-.actionBtn {
+/* Button style consistent with navbar and rest of site */
+.primaryButton {
   background: var(--card-accent);
   color: var(--main-bg);
   border: none;
-  border-radius: 7px;
-  padding: 7px 16px;
+  border-radius: 8px;
+  padding: 10px 22px;
   font-weight: 700;
+  font-size: 1.08em;
+  box-shadow: 0 2px 12px #23260c28;
   cursor: pointer;
-  transition: background 0.13s;
+  letter-spacing: 0.01em;
+  margin: 0 7px 0 0;
+  transition: background 0.14s, transform 0.11s;
+  outline: none;
+  display: inline-block;
 }
-.actionBtn:hover { background: var(--accent-gold); }
+.primaryButton:hover,
+.primaryButton:focus {
+  background: var(--accent-gold);
+  color: var(--main-bg);
+  transform: translateY(-1px) scale(1.035);
+  box-shadow: 0 4px 26px #EBC61D23;
+}
+.primaryButton:disabled {
+  opacity: 0.6;
+  pointer-events: none;
+  background: #c1c5b0;
+  color: #444;
+}
 
 .pagination {
   margin-top: 22px;
@@ -178,15 +84,16 @@ h2 {
   gap: 17px;
 }
 .pagination button {
-  background: var(--main-bg);
-  color: var(--card-accent);
-  border: 1.5px solid var(--card-accent);
+  background: var(--card-accent);
+  color: var(--main-bg);
+  border: none;
   border-radius: 7px;
-  padding: 7px 16px;
+  padding: 10px 17px 10px 17px;
   font-size: 1em;
-  font-weight: 600;
+  font-weight: 700;
+  margin: 0 7px;
   cursor: pointer;
-  transition: background 0.17s;
+  transition: background 0.13s, transform 0.11s;
 }
 .pagination button:disabled {
   background: #353831;
@@ -201,7 +108,7 @@ h2 {
   margin-bottom: 8px;
 }
 
-/* Modal and Form styles same as categories module */
+/* Modal and Form styles */
 .modalBackdrop {
   position: fixed;
   z-index: 1002;
@@ -236,41 +143,7 @@ input:focus, textarea:focus, select:focus {
   outline: 2px solid var(--card-accent);
 }
 
-.primaryButton {
-  background: var(--card-accent);
-  color: var(--main-bg);
-  border: none;
-  border-radius: 8px;
-  padding: 10px 22px;
-  font-weight: 700;
-  font-size: 1.08em;
-  box-shadow: 0 2px 12px #23260c28;
-  cursor: pointer;
-  letter-spacing: 0.01em;
-  margin: 0 7px 0 0;
-  transition: background 0.14s, transform 0.11s;
-  outline: none;
-  position: relative;
-  display: inline-block;
-}
-
-.primaryButton:hover,
-.primaryButton:focus {
-  background: var(--accent-gold);
-  color: var(--main-bg);
-  transform: translateY(-1px) scale(1.035);
-  box-shadow: 0 4px 26px #EBC61D23;
-}
-
-.primaryButton:disabled {
-  opacity: 0.6;
-  pointer-events: none;
-  background: #c1c5b0;
-  color: #444;
-}
-
-
-/* Responsive: no special case is needed, since it's already single column */
+/* Responsive */
 @media (max-width: 800px) {
   .container {
     padding: 22px 7vw 18px 7vw;

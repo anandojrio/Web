@@ -145,10 +145,6 @@ const EventsAdminPage: React.FC = () => {
     }
   }
 
-  function onView(id: number) {
-    window.open(`/dogadjaj/${id}`, "_blank", "noopener");
-  }
-
   return (
     <div className={styles.container}>
       <h2>Događaji</h2>
@@ -160,12 +156,13 @@ const EventsAdminPage: React.FC = () => {
           <div className={styles.cardGrid}>
             {events.map(ev => (
               <div key={ev.id} className={styles.cardWithActions}>
-                <EventCard event={ev} onView={onView}>
-                  <div className={styles.eventCardActions}>
-                    <button className={styles.primaryButton} onClick={() => openEditForm(ev)}>Izmeni</button>
-                    <button className={styles.primaryButton} onClick={() => deleteEvent(ev)}>Obriši</button>
-                  </div>
-                </EventCard>
+                <EventCard event={ev}>
+  <div className={styles.eventCardActions}>
+    <button className={styles.primaryButton} onClick={() => openEditForm(ev)}>Izmeni</button>
+    <button className={styles.primaryButton} onClick={() => deleteEvent(ev)}>Obriši</button>
+  </div>
+</EventCard>
+
               </div>
             ))}
           </div>

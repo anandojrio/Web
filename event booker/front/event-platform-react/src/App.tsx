@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from "./pages/RegisterPage";
 import CategoriesAdminPage from "./pages/CategoriesAdminPage";
 import EventsAdminPage from './pages/EventsAdminPage.tsx';
+import SearchPage from './pages/SearchPage.tsx';
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/kategorije" element={<CategoriesAdminPage />} />
         <Route path="/events" element={<EventsAdminPage />} />
+        <Route path="/search" element={<SearchPage />} />
+
       </Routes>
     </BrowserRouter>
   );

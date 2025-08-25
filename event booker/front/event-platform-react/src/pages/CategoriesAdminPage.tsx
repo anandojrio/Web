@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "../styles/CategoriesAdminPage.module.css";
@@ -103,6 +104,7 @@ const CategoriesAdminPage: React.FC = () => {
       {loading ? <p>Učitavanje...</p>
         : error ? <p className={styles.error}>{error}</p>
         : (
+          <div className={styles.tableWrapper}>
           <table className={styles.table}>
             <thead>
               <tr>
@@ -130,6 +132,7 @@ const CategoriesAdminPage: React.FC = () => {
               ))}
             </tbody>
           </table>
+          </div>
         )
       }
       {/* Add/Edit Category Modal */}

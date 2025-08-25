@@ -8,7 +8,7 @@
 
 .widget {
   position: fixed;
-  top: 88px;       /* below navbar */
+  top: 300px;      /* sits below the full height of stacked navbar+title */
   right: 32px;
   width: 250px;
   background: var(--card-bg);
@@ -53,5 +53,13 @@
   text-decoration: none;
   font-weight: 600;
   font-size: 0.99em;
-  transition: color
+  transition: color 0.12s;
 }
+.counts {
+  display: flex;
+  gap: 8px;
+  font-size: 1.02em;
+}
+.like { color: #F46666; font-weight: 700; }
+.dislike { color: #EBC61D; font-weight: 700; }
+.loading { color: #B6B767; text-align: center; font-size: 0.96em; opacity: 0.75;}
