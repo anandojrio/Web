@@ -7,6 +7,7 @@ import RegisterPage from "./pages/RegisterPage";
 import CategoriesAdminPage from "./pages/CategoriesAdminPage";
 import EventsAdminPage from './pages/EventsAdminPage.tsx';
 import SearchPage from './pages/SearchPage.tsx';
+import EventDetailPage from './pages/EventDetailPage.tsx';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/kategorije" element={<CategoriesAdminPage />} />
         <Route path="/events" element={<EventsAdminPage />} />
         <Route path="/search" element={<SearchPage />} />
+        <Route path="/dogadjaj/:id" element={<EventDetailPage />} /> 
 
       </Routes>
     </BrowserRouter>

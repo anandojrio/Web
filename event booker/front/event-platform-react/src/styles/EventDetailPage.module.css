@@ -1,0 +1,278 @@
+:root {
+  --main-bg: #040B11;
+  --section-bg: #282626;
+  --card-accent: #CEE056;
+  --text-main: #F3F3F2;
+  --accent-gold: #EBC61D;
+}
+
+.container {
+  background: transparent;
+  min-height: 100vh;
+  color: var(--text-main);
+  padding: 38px 32px 28px 32px; /* 32px left/right */
+  font-family: 'Segoe UI', Arial, sans-serif;
+  max-width: 900px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+h1 {
+  font-size: 2.4rem;
+  color: var(--accent-gold);
+  font-weight: 900;
+  letter-spacing: 0.01em;
+  margin-bottom: 40px;
+}
+
+p, span, label {
+  color: var(--text-main);
+  font-size: 1.08em;
+  margin-bottom: 10px;
+}
+
+hr {
+  border: none;
+  border-top: 1.5px solid var(--card-accent);
+  margin: 22px 0 16px 0;
+}
+
+.reactions {
+  display: flex;
+  gap: 25px;
+  margin-top: 14px;
+  margin-bottom: 10px;
+}
+.reactions button {
+  background: none;
+  color: var(--card-accent);
+  font-size: 1.23em;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: color 0.12s, transform 0.09s;
+}
+.reactions button:hover {
+  color: var(--accent-gold);
+  transform: scale(1.05);
+}
+
+.comment {
+  background: var(--main-bg);
+  border-radius: 14px;
+  padding: 18px 22px;
+  box-shadow: 0 8px 36px #EBC61D33, 0 4px 28px #000c0c38;
+  border: 1.5px solid var(--card-accent); /* yellow border */
+  color: var(--text-main);
+  margin: 16px 0;
+  transition: box-shadow 0.15s, transform 0.1s;
+}
+.comment:hover {
+  box-shadow: 0 12px 46px #EBC61D66, 0 8px 38px #000c0c53;
+  transform: scale(1.012);
+}
+
+.comment > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 7px;
+}
+.comment button {
+  background: var(--card-accent);
+  color: var(--main-bg);
+  border-radius: 7px;
+  margin-right: 8px;
+  padding: 3px 13px;
+  font-weight: 700;
+  font-size: 1em;
+  border: none;
+  cursor: pointer;
+  transition: background 0.13s, transform 0.11s;
+}
+.comment button:hover {
+  background: var(--accent-gold);
+  color: var(--main-bg);
+}
+.comment p {
+  margin: 5px 0 5px 0;
+  color: #f3f3f2;
+  line-height: 1.46;
+}
+
+input, textarea {
+  border-radius: 7px;
+  border: none;
+  margin: 0 0 12px 0;
+  padding: 10px 11px;
+  font-size: 1rem;
+  background: #232622;
+  color: var(--text-main);
+  width: 100%;
+}
+input:focus, textarea:focus {
+  outline: 2px solid var(--card-accent);
+}
+
+form {
+  margin-bottom: 22px;
+  background: var(--main-bg);
+  border-radius: 11px;
+  padding: 13px 19px 10px 19px;
+  box-shadow: 0 3px 20px #000b;
+}
+form button {
+  background: var(--card-accent);
+  color: var(--main-bg);
+  border-radius: 8px;
+  padding: 9px 20px;
+  font-weight: 700;
+  font-size: 1.1em;
+  border: none;
+  cursor: pointer;
+  transition: background 0.12s, transform 0.10s;
+  margin-top: 5px;
+}
+form button:disabled {
+  background: #c1c5b0;
+  color: #444;
+  opacity: 0.65;
+}
+
+.pagination {
+  margin-top: 14px;
+  display: flex;
+  gap: 13px;
+  justify-content: center;
+  align-items: center;
+}
+.pagination button {
+  background: var(--card-accent);
+  color: var(--main-bg);
+  border-radius: 7px;
+  padding: 9px 16px;
+  font-size: 0.96em;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: background 0.13s, transform 0.11s;
+}
+.pagination button:disabled {
+  background: #353831;
+  color: #aaa;
+  border-color: #444;
+  cursor: not-allowed;
+}
+
+.similarSection {
+  margin-top: 36px;
+  background: var(--main-bg);
+  border-radius: 13px;
+  padding: 14px 22px;
+  box-shadow: 0 2px 14px #23260c28;
+}
+.similarSection h2 {
+  margin-bottom: 7px;
+  font-size: 1.55em;
+  color: var(--accent-gold);
+}
+.similarSection ul {
+  list-style: none;
+  padding: 0;
+}
+.similarSection li {
+  padding: 7px 0;
+  font-size: 1.07em;
+}
+.similarSection a {
+  color: var(--card-accent);
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.13s;
+}
+.similarSection a:hover {
+  color: var(--accent-gold);
+  text-decoration: underline;
+}
+
+/* Tag link styling */
+a {
+  color: var(--card-accent);
+  font-weight: 700;
+  text-decoration: none;
+  margin-right: 9px;
+  transition: color 0.13s;
+}
+a:hover {
+  color: var(--accent-gold);
+  text-decoration: underline;
+}
+
+/* RSVP section */
+.rsvpSection {
+  margin-top: 28px;
+  padding: 14px 0 8px 0;
+}
+.rsvpSection button {
+  background: var(--card-accent);
+  color: var(--main-bg);
+  border-radius: 8px;
+  padding: 9px 20px;
+  font-weight: 700;
+  font-size: 1.1em;
+  border: none;
+  cursor: pointer;
+  transition: background 0.12s, transform 0.10s;
+  margin-left: 11px;
+}
+.rsvpSection button:disabled {
+  opacity: 0.60;
+  cursor: not-allowed;
+}
+
+.pageGrid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 44px;
+  padding: 38px 32px 28px 32px; /* <-- Add this line */
+  box-sizing: border-box;
+  max-width: 1150px;
+  margin: 0 auto;
+}
+.leftColumn {
+  /* matches previous container style */
+}
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.columnName {
+  color: var(--card-accent);
+  /* Glow effect: */
+  font-weight: 700;
+  margin-right: 10px;
+}
+
+.columnValue {
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+
+/* Responsive: columns stack on mobile */
+@media (max-width: 800px) {
+  .pageGrid {
+    display: block;
+  }
+  .rightColumn {
+    margin-top: 32px;
+  }
+}
+
+@media (max-width: 800px) {
+  .container {
+    padding: 22px 13px 19px 13px; /* slightly less on mobile */
+  }
+}
