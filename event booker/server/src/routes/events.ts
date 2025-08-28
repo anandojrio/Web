@@ -88,6 +88,7 @@ router.get('/', async (req: Request, res: Response) => {
       order: [['createdAt', 'DESC']],
       offset,
       limit,
+      distinct: true,
       include: [
         { model: Category, as: 'category', attributes: ['id', 'name'] },
         { model: User, as: 'author', attributes: ['id', 'email', 'firstName', 'lastName'] },

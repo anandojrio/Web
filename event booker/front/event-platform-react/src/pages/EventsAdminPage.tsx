@@ -42,23 +42,30 @@ const EventsAdminPage: React.FC = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  useEffect(() => {
+  async function loadEventsAndCategories(pageNum: number) {
     setLoading(true);
-    Promise.all([
-      axios.get(`/api/events?page=${page}&limit=${PAGE_SIZE}&sort=createdAt:desc`, { withCredentials: true }),
-      axios.get("/api/categories", { withCredentials: true })
-    ]).then(([evRes, catRes]) => {
-      const eventsData = evRes.data.data?.events ?? evRes.data.data ?? [];
+    try {
+      const [evRes, catRes] = await Promise.all([
+        axios.get(`/api/events?page=${pageNum}&limit=${PAGE_SIZE}&sort=createdAt:desc`, { withCredentials: true }),
+        axios.get("/api/categories", { withCredentials: true })
+      ]);
+      const eventsData = evRes.data.data ?? [];
       setEvents(eventsData.map((e: any) => ({
         ...e,
         eventDate: e.eventDate || e.date,
         tags: e.tags ?? [],
         category: e.category ?? undefined,
       })));
-      setTotalPages(evRes.data.data?.totalPages || 1);
+      setTotalPages(evRes.data.totalPages ?? 1);
       setCategories(catRes.data.data ?? []);
-    }).catch(() => {/**/})
-      .finally(() => setLoading(false));
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    loadEventsAndCategories(page);
+    // eslint-disable-next-line
   }, [page]);
 
   function openCreateForm() {
@@ -112,15 +119,7 @@ const EventsAdminPage: React.FC = () => {
       } else {
         await axios.post("/api/events", payload, { withCredentials: true });
       }
-      const evRes = await axios.get(`/api/events?page=${page}&limit=${PAGE_SIZE}&sort=createdAt:desc`, { withCredentials: true });
-      const eventsData = evRes.data.data?.events ?? evRes.data.data ?? [];
-      setEvents(eventsData.map((e: any) => ({
-        ...e,
-        eventDate: e.eventDate || e.date,
-        tags: e.tags ?? [],
-        category: e.category ?? undefined,
-      })));
-      setTotalPages(evRes.data.data?.totalPages || 1);
+      await loadEventsAndCategories(page);
       closeForm();
     } catch (err: any) {
       setFormError(err.response?.data?.error || "Greška u unosu.");
@@ -131,15 +130,7 @@ const EventsAdminPage: React.FC = () => {
     if (!window.confirm(`Obriši događaj "${ev.title}" i sve komentare?`)) return;
     try {
       await axios.delete(`/api/events/${ev.id}`, { withCredentials: true });
-      const evRes = await axios.get(`/api/events?page=${page}&limit=${PAGE_SIZE}&sort=createdAt:desc`, { withCredentials: true });
-      const eventsData = evRes.data.data?.events ?? evRes.data.data ?? [];
-      setEvents(eventsData.map((e: any) => ({
-        ...e,
-        eventDate: e.eventDate || e.date,
-        tags: e.tags ?? [],
-        category: e.category ?? undefined,
-      })));
-      setTotalPages(evRes.data.data?.totalPages || 1);
+      await loadEventsAndCategories(page);
     } catch (err: any) {
       alert(err.response?.data?.error || "Greška pri brisanju.");
     }
@@ -157,12 +148,11 @@ const EventsAdminPage: React.FC = () => {
             {events.map(ev => (
               <div key={ev.id} className={styles.cardWithActions}>
                 <EventCard event={ev}>
-  <div className={styles.eventCardActions}>
-    <button className={styles.primaryButton} onClick={() => openEditForm(ev)}>Izmeni</button>
-    <button className={styles.primaryButton} onClick={() => deleteEvent(ev)}>Obriši</button>
-  </div>
-</EventCard>
-
+                  <div className={styles.eventCardActions}>
+                    <button className={styles.primaryButton} onClick={() => openEditForm(ev)}>Izmeni</button>
+                    <button className={styles.primaryButton} onClick={() => deleteEvent(ev)}>Obriši</button>
+                  </div>
+                </EventCard>
               </div>
             ))}
           </div>
@@ -185,7 +175,6 @@ const EventsAdminPage: React.FC = () => {
           </div>
         </>
       )}
-
       {showForm && (
         <div className={styles.modalBackdrop}>
           <div className={styles.modal}>

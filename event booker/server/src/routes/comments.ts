@@ -69,7 +69,8 @@ router.get('/events/:eventId/comments', async (req: Request, res: Response) => {
       where: { eventId },
       order: [['createdAt', 'DESC']],
       offset,
-      limit
+      limit,
+      distinct:true,
     });
 
     res.json({

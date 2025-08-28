@@ -15,6 +15,7 @@ import eventRoutes from './routes/events';
 import rsvpRoutes from './routes/rsvp';
 import commentRoutes from './routes/comments';
 import tagRoutes from './routes/tags';
+import usersRouter from "./routes/users"; 
 
 // Import route files
 import authRoutes from './routes/auth';
@@ -71,6 +72,7 @@ app.use('/api/events', eventRoutes);
 app.use('/api/events', rsvpRoutes);
 app.use('/api', commentRoutes);
 app.use('/api',tagRoutes);
+app.use("/api/users", usersRouter);
 
 
 

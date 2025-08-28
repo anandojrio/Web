@@ -1,0 +1,174 @@
+:root {
+  --main-bg: #040B11;
+  --section-bg: #282626;
+  --card-accent: #CEE056;
+  --text-main: #F3F3F2;
+  --accent-gold: #EBC61D;
+}
+
+.container {
+  max-width: 960px;
+  margin: 40px auto 0 auto;
+  color: var(--text-main);
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.h2 {
+  font-size: 2.1rem;
+  margin-bottom: 12px;
+  color: var(--accent-gold);
+}
+
+.addBtn {
+  background: var(--card-accent);
+  color: var(--main-bg);
+  font-weight: 700;
+  border: none;
+  border-radius: 7px;
+  margin-bottom: 18px;
+  padding: 12px 24px;
+  cursor: pointer;
+  font-size: 1.09em;
+  margin-right: 8px;
+  transition: background 0.18s;
+  box-shadow: 0 2px 10px #23260c28;
+}
+.addBtn:hover { background: var(--accent-gold); }
+
+.tableWrapper {
+  background: var(--main-bg);
+  border-radius: 17px;
+  border: 2px solid var(--accent-gold);
+  box-shadow: 0 6px 38px #EBC61D32, 0 4px 28px #000c0c38;
+  padding: 0 0 18px 0;
+  margin: 0 0 35px 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: transparent;
+  color: var(--text-main);
+  margin: 0;
+}
+
+th, td {
+  padding: 12px 24px;
+  text-align: left;
+  font-size: 1.07em;
+}
+
+thead tr th {
+  background: #232622;
+  color: var(--accent-gold);
+  font-weight: 700;
+  border-bottom: 2.5px solid var(--card-accent);
+}
+
+tbody tr {
+  background: transparent;
+  transition: background 0.18s;
+}
+tbody tr:hover {
+  background: rgba(206, 224, 86, 0.075);
+}
+
+td {
+  border-bottom: 1.7px solid #383d35;
+}
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.buttonGroup {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
+}
+
+.actionBtn {
+  background: var(--card-accent);
+  color: var(--main-bg);
+  border: none;
+  border-radius: 7px;
+  padding: 6.5px 22px;
+  font-weight: 700;
+  font-size: 1em;
+  cursor: pointer;
+  margin: 0;
+  transition: background 0.16s, box-shadow 0.15s;
+  box-shadow: 0 1.5px 7px #23260c18;
+}
+.actionBtn:hover:enabled {
+  background: var(--accent-gold);
+}
+.cancelBtn {
+  background: #2D322C;
+  color: var(--accent-gold);
+  border: 1.5px solid var(--accent-gold);
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 700;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.16s, color 0.13s;
+  margin-left: 7px;
+}
+.cancelBtn:hover {
+  background: #393f48;
+  color: #CEE056;
+}
+
+.error {
+  color: var(--accent-gold);
+  margin-top: 11px;
+  margin-bottom: 10px;
+}
+
+/* Modal styles */
+.modalBackdrop {
+  position: fixed;
+  z-index: 1002;
+  left: 0; top: 0; right: 0; bottom: 0;
+  background: #000b;
+  display: flex; align-items: center; justify-content: center;
+}
+.modal {
+  background: var(--main-bg);
+  color: var(--text-main);
+  border-radius: 13px;
+  padding: 26px 34px 21px 34px;
+  width: 370px;
+  box-shadow: 0 3px 30px #000b;
+}
+.modalActions {
+  margin-top: 14px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+input, textarea, select {
+  width: 100%;
+  border-radius: 6px;
+  border: none;
+  margin: 3px 0 14px 0;
+  padding: 9px 11px;
+  font-size: 1rem;
+  background: #232622;
+  color: var(--text-main);
+}
+input:focus, textarea:focus, select:focus {
+  outline: 2px solid var(--card-accent);
+}
+
+/* Responsive */
+@media (max-width: 800px) {
+  .container { padding: 12px 2vw; }
+  .tableWrapper { padding: 0; }
+  th, td { padding: 10px 5vw; }
+  .modal { width: 93vw; min-width: 0; }
+}

@@ -77,12 +77,13 @@ const EventDetailPage: React.FC = () => {
   }, [eventId, commentsPage, user]);
 
   function fetchComments(page: number) {
-    axios.get(`/api/events/${eventId}/comments?page=${page}&limit=${PAGE_SIZE}`)
-      .then(res => {
-        setComments(res.data.data);
-        setTotalCommentPages(res.data.totalPages || 1);
-      });
-  }
+  axios.get(`/api/events/${eventId}/comments?page=${page}&limit=${PAGE_SIZE}`)
+    .then(res => {
+      setComments(res.data.data);
+      setTotalCommentPages(res.data.totalPages || 1);
+    });
+}
+
 
   function handleReaction(type: "like" | "dislike") {
     axios.post(`/api/events/${eventId}/${type}`)

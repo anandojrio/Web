@@ -52,40 +52,41 @@ const Navbar: React.FC = () => {
 
   // ---- ADMIN NAVBAR ----
   if (user?.role === "admin") {
-    return (
-      <div className={styles.navbarStacked}>
-        <div className={styles.navTitleBar}>
-          <span className={styles.mainTitle}>Event Booker</span>
-          <span className={styles.subTitle}>Vaša platforma za događaje</span>
-        </div>
-        <nav className={styles.navbarRow}>
-          <div className={styles.navLeft}>
-            <Link to="/kategorije" className={styles.navLink}>Kategorije</Link>
-            <Link to="/events" className={styles.navLink}>Događaji</Link>
-            <Link to="/korisnici" className={styles.navLink}>Korisnici</Link>
-            <form className={styles.searchForm} onSubmit={handleSearch}>
-              <input
-                type="text"
-                placeholder="search"
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-                className={styles.searchInput}
-                maxLength={40}
-              />
-            </form>
-          </div>
-          <div className={styles.navRight}>
-            <span className={styles.navUsername} style={{ marginRight: 10 }}>
-              {user.firstName} {user.lastName}
-            </span>
-            <button className={styles.navLink} style={{ cursor: "pointer" }} onClick={handleLogout}>
-              Odjava
-            </button>
-          </div>
-        </nav>
+  return (
+    <div className={styles.navbarStacked}>
+      <div className={styles.navTitleBar}>
+        <span className={styles.mainTitle}>Event Booker</span>
+        <span className={styles.subTitle}>Vaša platforma za događaje</span>
       </div>
-    );
-  }
+      <nav className={styles.navbarRow}>
+        <div className={styles.navLeft}>
+          <Link to="/kategorije" className={styles.navLink}>Kategorije</Link>
+          <Link to="/events" className={styles.navLink}>Događaji</Link>
+          <Link to="/users" className={styles.navLink}>Korisnici</Link>
+          <form className={styles.searchForm} onSubmit={handleSearch}>
+            <input
+              type="text"
+              placeholder="search"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              className={styles.searchInput}
+              maxLength={40}
+            />
+          </form>
+        </div>
+        <div className={styles.navRight}>
+          <span className={styles.navUsername} style={{ marginRight: 10 }}>
+            {user.firstName} {user.lastName}
+          </span>
+          <button className={styles.navLink} style={{ cursor: "pointer" }} onClick={handleLogout}>
+            Odjava
+          </button>
+        </div>
+      </nav>
+    </div>
+  );
+}
+
 
   // ---- EVENT CREATOR NAVBAR ----
   if (user?.role === "event_creator" || user?.role === "event creator") {

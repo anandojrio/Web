@@ -8,6 +8,9 @@ import CategoriesAdminPage from "./pages/CategoriesAdminPage";
 import EventsAdminPage from './pages/EventsAdminPage.tsx';
 import SearchPage from './pages/SearchPage.tsx';
 import EventDetailPage from './pages/EventDetailPage.tsx';
+import AdminUserPage from "./pages/AdminUserPage";
+import CategoryEventsPage from "./pages/CategoryEventsPage";
+import NajposecenijiPage from "./pages/NajposecenijiPage";
 
 function App() {
   return (
@@ -21,6 +24,9 @@ function App() {
         <Route path="/events" element={<EventsAdminPage />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/dogadjaj/:id" element={<EventDetailPage />} /> 
+        <Route path="/users" element={<AdminUserPage />} />
+        <Route path="/kategorije/:id" element={<CategoryEventsPage />} />
+        <Route path="/najposeceniji" element={<NajposecenijiPage />} />
 
       </Routes>
     </BrowserRouter>
