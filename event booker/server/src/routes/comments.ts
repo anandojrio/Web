@@ -9,7 +9,6 @@ const router = Router();
 
 /**
  * POST /api/events/:eventId/comments
- * Add comment to event (public or logged in)
  */
 router.post('/events/:eventId/comments', async (req: Request, res: Response) => {
   try {
@@ -33,7 +32,6 @@ router.post('/events/:eventId/comments', async (req: Request, res: Response) => 
           if (userInDb) name = `${userInDb.firstName} ${userInDb.lastName}`;
         }
       } catch {
-        /* ignore, treat as guest comment */
       }
     }
 
@@ -56,7 +54,6 @@ router.post('/events/:eventId/comments', async (req: Request, res: Response) => 
 
 /**
  * GET /api/events/:eventId/comments
- * Paginated comments, newest first
  */
 router.get('/events/:eventId/comments', async (req: Request, res: Response) => {
   try {
@@ -89,7 +86,6 @@ router.get('/events/:eventId/comments', async (req: Request, res: Response) => {
 /**
  * POST /api/comments/:commentId/like
  * POST /api/comments/:commentId/dislike
- * Simple in-memory limiting for demo — production should use DB/redis/session!
  */
 const votedComments = new Set<string>(); // For demo ONLY
 
@@ -127,7 +123,6 @@ router.post('/comments/:commentId/dislike', (req: Request, res: Response) => {
 
 /**
  * DELETE /api/comments/:commentId
- * Only admin, event creator, or comment author can delete
  */
 router.delete('/comments/:commentId', authenticate, async (req: Request, res: Response) => {
   try {
@@ -137,24 +132,20 @@ router.delete('/comments/:commentId', authenticate, async (req: Request, res: Re
       return res.status(404).json({ success: false, error: 'Comment not found.' });
     }
 
-    // Get the event related to this comment
+    // event koji je komentarisan
     const event = await Event.findByPk(comment.eventId);
 
-    // Get the currently logged-in user info
+    // trenutni korisnik
     const userId = (req as any).user?.userId;
     const userRole = (req as any).user?.role;
 
-    // Only allow if:
-    // - Admin
-    // - Event creator (they own event)
-    // - Author of the comment (if user is logged in and matches)
     let canDelete = false;
     if (userRole === 'admin') {
       canDelete = true;
     } else if (event && event.authorId === userId) {
       canDelete = true;
     } else if (comment && comment.authorName && userRole && userId) {
-      // Fetch user from DB to compare names
+      // fetch user iz DB da se uporedi
       const user = await User.findByPk(userId);
       if (user) {
         const fullName = `${user.firstName} ${user.lastName}`;

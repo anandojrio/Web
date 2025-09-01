@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
-import { User } from "../models/User"; // adjust path as needed
-import { authenticate, requireAdmin } from "../middleware/auth"; // you likely already have these
+import { User } from "../models/User";
+import { authenticate, requireAdmin } from "../middleware/auth"; 
 import bcrypt from "bcrypt";
 
 
@@ -14,7 +14,6 @@ router.get("/", authenticate, requireAdmin, async (req: Request, res: Response) 
   try {
     const users = await User.findAll({
       attributes: ["id", "firstName", "lastName", "email", "role", "isActive"]
- // Add/remove fields as needed
     });
     res.json({ success: true, data: users });
   } catch (error) {
@@ -43,7 +42,7 @@ router.put("/:id", authenticate, requireAdmin, async (req: Request, res: Respons
     if (typeof role === "string" && (role === "admin" || role === "event creator")) user.role = role;
     if (typeof isActive === "boolean") user.isActive = isActive;
 
-    // If password present and not empty, set new hash
+    // nova sifra
     if (typeof password === "string" && password.trim().length > 0) {
       user.password = await bcrypt.hash(password, 10);
     }
@@ -65,7 +64,6 @@ router.delete("/:id", authenticate, requireAdmin, async (req: Request, res: Resp
   try {
     const { id } = req.params;
 
-    // Prevent deleting the only admin or self-deleting admin (optional security)
     const user = await User.findByPk(id);
     if (!user) {
       return res.status(404).json({ success: false, error: "User not found." });
@@ -112,6 +110,7 @@ router.patch("/:id/status", authenticate, requireAdmin, async (req: Request, res
   }
 });
 
+// novi user
 router.post("/", authenticate, requireAdmin, async (req: Request, res: Response) => {
   try {
     const { firstName, lastName, email, role, password, isActive = true } = req.body;
@@ -123,7 +122,6 @@ router.post("/", authenticate, requireAdmin, async (req: Request, res: Response)
       return res.status(400).json({ success: false, error: "Role must be 'admin' or 'event creator'." });
     }
 
-    // email unique check goes here if not handled by DB
     const hash = await bcrypt.hash(password, 10);
     const user = await User.create({
       firstName,

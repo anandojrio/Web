@@ -3,8 +3,7 @@ import axios from "axios";
 
 type User = {
   id: number;
-  role: string; // "event_creator", "admin", "event creator", etc.
-  // other fields as needed
+  role: string; 
 } | null;
 
 type AuthContextType = {

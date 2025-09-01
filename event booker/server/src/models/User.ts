@@ -1,7 +1,7 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import { sequelize } from '../config/database';
 
-// Define what a User looks like in the database
+// database izgled
 interface UserAttributes {
   id: number;
   email: string;
@@ -14,10 +14,10 @@ interface UserAttributes {
   updatedAt?: Date;
 }
 
-// When creating a user, ID and timestamps are auto-generated
+// ID, timestamp automatic
 interface UserCreationAttributes extends Optional<UserAttributes, 'id' | 'createdAt' | 'updatedAt'> {}
 
-// Define the User model class
+//User model class
 class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
   public id!: number;
   public email!: string;
@@ -27,7 +27,7 @@ class User extends Model<UserAttributes, UserCreationAttributes> implements User
   public role!: 'event creator' | 'admin';
   public isActive!: boolean;
   
-  // Timestamps are automatically managed by Sequelize
+  //Sequelize
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }

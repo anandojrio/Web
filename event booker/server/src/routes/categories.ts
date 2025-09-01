@@ -7,7 +7,7 @@ import { authenticate, requireEventCreatorOrAdmin } from '../middleware/auth';
 
 const router = Router();
 
-// CREATE a new category (only for event creator or admin)
+// CREATE a new category
 router.post(
   '/',
   authenticate,
@@ -20,7 +20,7 @@ router.post(
         return res.status(400).json({ success: false, error: 'Name and description are required.' });
       }
 
-      // Prevent duplicate category names
+      // spreciti duplikate
       const existing = await Category.findOne({ where: { name } });
       if (existing) {
         return res.status(400).json({ success: false, error: 'Category name already exists.' });
@@ -86,7 +86,7 @@ router.get('/:categoryId/events', async (req: Request, res: Response) => {
   }
 });
 
-// UPDATE a category (only for event creator or admin)
+// UPDATE a category (event creator ili admin)
 router.put(
   '/:id',
   authenticate,
@@ -101,7 +101,7 @@ router.put(
         return res.status(404).json({ success: false, error: 'Category not found.' });
       }
 
-      // Prevent changing name to duplicate another category
+      // spreciti duplikat
       if (name && name !== category.name) {
         const existing = await Category.findOne({ where: { name } });
         if (existing) {
@@ -121,7 +121,7 @@ router.put(
   }
 );
 
-// DELETE a category (only for event creator or admin)
+// DELETE a category (event creator ili admin)
 router.delete(
   '/:id',
   authenticate,
@@ -133,8 +133,6 @@ router.delete(
       if (!category) {
         return res.status(404).json({ success: false, error: 'Category not found.' });
       }
-
-      // TODO: Prevent deletion if events exist in this category
 
       await category.destroy();
       res.json({ success: true, message: 'Category deleted' });

@@ -18,10 +18,9 @@ interface EventAttributes {
   maxCapacity?: number | null;
 }
 
-// 2. Creation attributes - what is optional on creation?
 interface EventCreationAttributes extends Optional<EventAttributes, 'id' | 'createdAt' | 'updatedAt' | 'views' | 'maxCapacity'> {}
 
-// 3. Model class for Event
+// Model class for Event
 class Event extends Model<EventAttributes, EventCreationAttributes> implements EventAttributes {
   public id!: number;
   public title!: string;
@@ -36,7 +35,7 @@ class Event extends Model<EventAttributes, EventCreationAttributes> implements E
   public readonly updatedAt!: Date;
 }
 
-// 4. Initialize table definition for Sequelize
+// Initialize table definition for Sequelize
 Event.init(
   {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
@@ -67,10 +66,9 @@ Event.hasMany(Comment, { foreignKey: 'eventId', as: 'comments' });
 Event.belongsToMany(Tag, { through: EventTag, foreignKey: 'eventId', as: 'tags' });
 
 
-// 5. Add relationships (foreign keys)
-// Event belongs to a User (author)
+
 Event.belongsTo(User, { foreignKey: 'authorId', as: 'author' });
-// Event belongs to a Category
+
 Event.belongsTo(Category, { foreignKey: 'categoryId', as: 'category' });
 
 export { Event };

@@ -14,13 +14,13 @@ router.post('/:eventId/rsvp', authenticate, async (req: Request, res: Response) 
     const userId = req.user!.userId;
     const eventId = parseInt(req.params.eventId);
 
-    // Check if event exists
+    // da li event postoji
     const event = await Event.findByPk(eventId);
     if (!event) {
       return res.status(404).json({ success: false, error: 'Event not found.' });
     }
 
-    // Check if user already registered for this event
+    // da li je korisnik vec registrovan
     const existing = await RSVP.findOne({ where: { userId, eventId } });
     if (existing) {
       return res.status(400).json({ success: false, error: 'You have already RSVPed to this event.' });
@@ -41,7 +41,7 @@ router.post('/:eventId/rsvp', authenticate, async (req: Request, res: Response) 
 });
 
 /**
- * Cancel RSVP (auth required, optional)
+ * Cancel RSVP (auth required)
  */
 router.delete('/:eventId/rsvp', authenticate, async (req: Request, res: Response) => {
   try {
@@ -62,7 +62,7 @@ router.delete('/:eventId/rsvp', authenticate, async (req: Request, res: Response
 });
 
 /**
- * List all RSVPs for an event (public or role-restricted, as you choose)
+ * List all RSVPs for an event
  */
 router.get('/:eventId/rsvps', async (req: Request, res: Response) => {
   try {

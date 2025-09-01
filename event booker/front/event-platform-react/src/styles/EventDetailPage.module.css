@@ -234,13 +234,13 @@ a:hover {
   display: grid;
   grid-template-columns: 1.1fr 1fr;
   gap: 44px;
-  padding: 38px 32px 28px 32px; /* <-- Add this line */
+  padding: 38px 32px 28px 32px; 
   box-sizing: border-box;
   max-width: 1150px;
   margin: 0 auto;
 }
 .leftColumn {
-  /* matches previous container style */
+  
 }
 .rightColumn {
   display: flex;

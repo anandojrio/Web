@@ -8,7 +8,6 @@ const router = Router();
 
 /**
  * GET /api/tags
- * List all tags
  */
 router.get('/tags', async (req: Request, res: Response) => {
   try {
@@ -21,7 +20,7 @@ router.get('/tags', async (req: Request, res: Response) => {
 
 /**
  * GET /api/tags/:tagName/events
- * List all events for a given tag
+ * svi eventi sa datim tagom
  */
 router.get('/tags/:tagName/events', async (req: Request, res: Response) => {
   try {

@@ -1,7 +1,7 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import { sequelize } from '../config/database';
 
-// 1. Fields: eventId, tagId
+// Fields: eventId, tagId
 interface EventTagAttributes {
   id: number;
   eventId: number;

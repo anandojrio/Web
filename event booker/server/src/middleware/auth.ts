@@ -15,10 +15,10 @@ declare global {
   }
 }
 
-// Middleware to check if user is authenticated (supports cookie and header)
+// Middleware to check if user is authenticated (cookie ili header)
 export const authenticate = (req: Request, res: Response, next: NextFunction) => {
   try {
-    // Prefer token from cookie, fallback to Authorization header
+    // Prefer token from cookie
     const authHeader = req.header('Authorization');
     const token =
       req.cookies?.token ||
@@ -32,7 +32,7 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
     }
 
     const decoded = verifyToken(token);
-    req.user = decoded; // decoded: { userId, role, iat, exp }
+    req.user = decoded;
     next();
   } catch (error) {
     res.status(401).json({
@@ -42,7 +42,7 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
   }
 };
 
-// Middleware to check if user has required role(s)
+// Middleware to check if user has required role
 export const requireRole = (allowedRoles: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
     if (!req.user) {

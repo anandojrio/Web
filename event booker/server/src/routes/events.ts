@@ -37,7 +37,6 @@ router.post('/', authenticate, requireEventCreatorOrAdmin, async (req: Request, 
       maxCapacity: maxCapacity !== undefined ? maxCapacity : null,
     });
 
-    // Type-safe tag associations
     if (Array.isArray(tags)) {
       await (event as any).setTags([]);
       for (const tagName of tags) {
@@ -64,17 +63,16 @@ router.post('/', authenticate, requireEventCreatorOrAdmin, async (req: Request, 
   }
 });
 
-// Get ALL events (public, with pagination, plus like/dislike counts)
+// Get ALL events public
 router.get('/', async (req: Request, res: Response) => {
   try {
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 10;
     const offset = (page - 1) * limit;
 
-    // NEW: Get search query param (supports ?q= or ?search=)
+    // search query param
     const search = (req.query.q || req.query.search || "").toString().trim();
 
-    // NEW: Build where condition for search
     const where: any = {};
     if (search.length > 0) {
       where[Op.or] = [
@@ -84,7 +82,7 @@ router.get('/', async (req: Request, res: Response) => {
     }
 
     const { count, rows } = await Event.findAndCountAll({
-      where, // <--- add this line!
+      where,
       order: [['createdAt', 'DESC']],
       offset,
       limit,
@@ -96,7 +94,7 @@ router.get('/', async (req: Request, res: Response) => {
       ],
     });
 
-    // Get like/dislike counts for events
+    // Get like/dislike count
     const eventIds = rows.map(e => e.id);
     const reactions = await EventReaction.findAll({ where: { eventId: eventIds } });
 
@@ -105,7 +103,7 @@ router.get('/', async (req: Request, res: Response) => {
     for (const r of reactions)
       counts[r.eventId][r.reaction] = (counts[r.eventId][r.reaction] || 0) + 1;
 
-    // Add counts to output
+    // display
     const data = rows.map(e => ({
       ...e.toJSON(),
       likeCount: counts[e.id]?.like || 0,
@@ -138,8 +136,6 @@ router.get('/most-viewed', async (req: Request, res: Response) => {
       ]
     });
 
-    // Optionally, add like/dislike counts here as in your main GET if you want consistency
-
     res.json({ success: true, data: events });
   } catch (error) {
     console.error('Most viewed events error:', error);
@@ -150,7 +146,7 @@ router.get('/most-viewed', async (req: Request, res: Response) => {
 // GET /api/events/most-reacted
 router.get('/most-reacted', async (req: Request, res: Response) => {
   try {
-    // Get all reaction counts grouped by event
+    // get most reactons
     const reactions = await EventReaction.findAll({
       attributes: [
         'eventId',
@@ -165,7 +161,7 @@ router.get('/most-reacted', async (req: Request, res: Response) => {
 
     const eventIds = reactions.map((r: any) => r.eventId);
 
-    // Get full event objects with category, tags, etc.
+    // Get full event objects
     const events = await Event.findAll({
       where: { id: eventIds },
       include: [
@@ -191,7 +187,6 @@ router.get('/most-reacted', async (req: Request, res: Response) => {
       ...eventMap[e.id]
     }));
 
-    // Optionally, sort again by totalReactions if needed
     data.sort((a, b) => b.totalReactions - a.totalReactions);
 
     res.json({ success: true, data });
@@ -201,24 +196,24 @@ router.get('/most-reacted', async (req: Request, res: Response) => {
   }
 });
 
-// GET /api/events/:eventId/similar
+// GET /api/events/:eventId/similar po tagovima
 router.get('/:eventId/similar', async (req: Request, res: Response) => {
   try {
     const eventId = parseInt(req.params.eventId);
 
-    // 1. Fetch the target event with tags
+    // Fetch the target event with tags
     const event = await Event.findByPk(eventId, {
       include: [{ model: Tag, as: 'tags', attributes: ['id', 'name'] }]
     });
 
     if (!event || !(event as any).tags?.length) {
-      return res.json({ success: true, data: [] }); // No tags = no similar events
+      return res.json({ success: true, data: [] }); // No tags = nema slicnih
     }
 
-    // 2. Get all tag IDs for this event
+    // get tag IDs
     const tagIds = (event as any).tags.map((tag: any) => tag.id);
 
-    // 3. Find other events sharing ANY of these tags (exclude self)
+    // naci druge evente koji dele tagove
     const similarEvents = await Event.findAll({
       where: {
         id: { [Op.ne]: eventId }
@@ -230,7 +225,7 @@ router.get('/:eventId/similar', async (req: Request, res: Response) => {
       ]
     });
 
-    // 4. Count the number of shared tags per event
+    // Count the number of shared tags per event
     const ranked = similarEvents
       .map(e => ({
         ...e.toJSON(),
@@ -247,7 +242,7 @@ router.get('/:eventId/similar', async (req: Request, res: Response) => {
 });
 
 
-// Get single event by ID, increment view count, include like/dislike counts
+// Get single event by ID - poveca view count
 router.get('/:id', async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
@@ -359,13 +354,13 @@ router.post('/:eventId/like', authenticate, async (req, res) => {
     const userId = req.user ? req.user.userId : null;
     const ip = req.ip;
 
-    // Check if event exists
+    // provera da li event postoji
     const event = await Event.findByPk(eventId);
     if (!event) {
       return res.status(404).json({ success: false, error: 'Event not found.' });
     }
 
-    // Prevent multiple reactions (by user or IP)
+    // Prevent multiple reactions
     const prior = await EventReaction.findOne({ where: { eventId, ...(userId ? {userId} : {ip}), } });
     if (prior) {
       if (prior.reaction === 'like') {

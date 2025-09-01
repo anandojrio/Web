@@ -31,7 +31,7 @@ RSVP.init(
     tableName: 'rsvps',
     timestamps: true,
     indexes: [
-      { unique: true, fields: ['userId', 'eventId'] }, // Prevent duplicate RSVPs
+      { unique: true, fields: ['userId', 'eventId'] }, // Prevent duplikate
     ]
   }
 );

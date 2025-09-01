@@ -129,7 +129,6 @@ tbody tr:last-child td {
   margin-bottom: 10px;
 }
 
-/* Modal styles */
 .modalBackdrop {
   position: fixed;
   z-index: 1002;

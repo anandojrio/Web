@@ -1,7 +1,7 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import { sequelize } from '../config/database';
 
-// 1. Tag field definitions
+// Tag field definitions
 interface TagAttributes {
   id: number;
   name: string;

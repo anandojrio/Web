@@ -14,9 +14,6 @@ const Navbar: React.FC = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [search, setSearch] = useState("");
 
-  // DEBUG: Render log
-  // console.log("RENDERING NAVBAR", user, loading);
-
   // Fetch categories only for guests (public navbar)
   React.useEffect(() => {
     if (!user && !loading) {

@@ -45,7 +45,6 @@ h2 {
   margin-bottom: 3px;
 }
 
-/* Button style consistent with navbar and rest of site */
 .primaryButton {
   background: var(--card-accent);
   color: var(--main-bg);

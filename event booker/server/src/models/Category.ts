@@ -1,7 +1,7 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import { sequelize } from '../config/database';
 
-// 1. Describe what a Category looks like (TypeScript only)
+// 1. Describe what a Category looks like
 interface CategoryAttributes {
   id: number;
   name: string;
@@ -10,11 +10,9 @@ interface CategoryAttributes {
   updatedAt?: Date;
 }
 
-// 2. When creating a Category, ID and timestamps are optional
 interface CategoryCreationAttributes
   extends Optional<CategoryAttributes, 'id' | 'createdAt' | 'updatedAt'> {}
 
-// 3. Define the model class (maps TS & DB)
 class Category
   extends Model<CategoryAttributes, CategoryCreationAttributes>
   implements CategoryAttributes
@@ -26,7 +24,6 @@ class Category
   public readonly updatedAt!: Date;
 }
 
-// 4. Tell Sequelize how the table looks in the DB
 Category.init(
   {
     id: {

@@ -24,7 +24,7 @@
 
 @media (max-width: 950px) {
   .widget {
-    display: none; /* Hide on small screens */
+    display: none;
   }
 }
 

@@ -1,11 +1,11 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
-// JWT Secret (in production, use environment variable)
+// JWT Secret
 const JWT_SECRET = 'your-super-secret-key-change-in-production';
 const SALT_ROUNDS = 12;
 
-// Hash password before storing in database
+// Hash password pre cuvanja u bazi podataka
 export const hashPassword = async (password: string): Promise<string> => {
   try {
     return await bcrypt.hash(password, SALT_ROUNDS);
@@ -33,7 +33,7 @@ export const generateToken = (userId: number, role: string): string => {
       { 
         userId, 
         role,
-        iat: Math.floor(Date.now() / 1000) // Issued at time
+        iat: Math.floor(Date.now() / 1000) // time
       },
       JWT_SECRET,
       { expiresIn: '24h' } // Token expires in 24 hours

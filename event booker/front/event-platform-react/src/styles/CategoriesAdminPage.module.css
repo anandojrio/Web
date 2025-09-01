@@ -32,7 +32,6 @@
   border-color: var(--accent-gold);
 }
 
-/* Table styling for card-feel */
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -111,7 +110,6 @@ tr:hover {
   margin-bottom: 8px;
 }
 
-/* Modal styles - unchanged */
 .modalBackdrop {
   position: fixed;
   z-index: 1002;

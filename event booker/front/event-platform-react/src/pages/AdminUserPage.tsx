@@ -112,21 +112,21 @@ const AdminUserPage: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <h2>Korisnici</h2>
-      <button className={styles.addBtn} onClick={openAddForm}>Dodaj korisnika</button>
-      {loading ? <p>Učitavanje...</p>
+      <h2>Users</h2>
+      <button className={styles.addBtn} onClick={openAddForm}>Add new user</button>
+      {loading ? <p>Loading...</p>
         : error ? <p className={styles.error}>{error}</p>
         : (
           <div className={styles.tableWrapper}>
             <table className={styles.table}>
               <thead>
                 <tr>
-                  <th>Ime</th>
-                  <th>Prezime</th>
+                  <th>Name</th>
+                  <th>Surname</th>
                   <th>Email</th>
-                  <th>Tip</th>
+                  <th>Type</th>
                   <th>Status</th>
-                  <th>Akcije</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -141,7 +141,7 @@ const AdminUserPage: React.FC = () => {
                     </td>
                     <td>
   <div className={styles.buttonGroup}>
-    <button className={styles.actionBtn} onClick={() => openEditForm(user)}>Izmeni</button>
+    <button className={styles.actionBtn} onClick={() => openEditForm(user)}>Edit</button>
     <button
       className={styles.actionBtn}
       style={{
@@ -152,7 +152,7 @@ const AdminUserPage: React.FC = () => {
       disabled={user.role === "admin"}
       title={user.role === "admin" ? "Admin ne može biti deaktiviran" : ""}
     >
-      {user.isActive ? "Deaktiviraj" : "Aktiviraj"}
+      {user.isActive ? "Deactivate" : "Activate"}
     </button>
   </div>
 </td>
@@ -170,7 +170,7 @@ const AdminUserPage: React.FC = () => {
           <div className={styles.modal}>
             <h3>{editing ? "Izmena korisnika" : "Novi korisnik"}</h3>
             <form onSubmit={handleFormSubmit}>
-              <label>Ime:</label>
+              <label>Name:</label>
               <input
                 name="firstName"
                 type="text"
@@ -178,7 +178,7 @@ const AdminUserPage: React.FC = () => {
                 onChange={handleFormChange}
                 required
               />
-              <label>Prezime:</label>
+              <label>Surname:</label>
               <input
                 name="lastName"
                 type="text"
@@ -195,7 +195,7 @@ const AdminUserPage: React.FC = () => {
                 required
                 disabled={!!editing} // don't allow changing email during edit
               />
-              <label>Tip korisnika:</label>
+              <label>User type:</label>
               <select
                 name="role"
                 value={form.role}
@@ -208,7 +208,7 @@ const AdminUserPage: React.FC = () => {
               </select>
               {(showPasswordFields || !editing) && (
                 <>
-                  <label>Lozinka:</label>
+                  <label>Password:</label>
                   <input
                     name="password"
                     type="password"
@@ -217,7 +217,7 @@ const AdminUserPage: React.FC = () => {
                     required={!editing || showPasswordFields}
                     autoComplete="new-password"
                   />
-                  <label>Potvrdi lozinku:</label>
+                  <label>Confirm password:</label>
                   <input
                     name="confirmPassword"
                     type="password"
@@ -231,9 +231,9 @@ const AdminUserPage: React.FC = () => {
               {formError && <div className={styles.error}>{formError}</div>}
               <div className={styles.modalActions}>
                 <button type="submit" className={styles.actionBtn}>
-                  {editing ? "Sačuvaj izmene" : "Dodaj"}
+                  {editing ? "Save changes" : "Add"}
                 </button>
-                <button type="button" className={styles.cancelBtn} onClick={closeForm}>Otkaži</button>
+                <button type="button" className={styles.cancelBtn} onClick={closeForm}>Cancel</button>
               </div>
             </form>
           </div>

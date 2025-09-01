@@ -6,12 +6,11 @@ import { authenticate } from '../middleware/auth';
 const router = Router();
 
 // POST /api/auth/register
-// Register a new user
 router.post('/register', async (req, res) => {
   try {
     const { email, firstName, lastName, password, role } = req.body;
 
-    // Validate required fields
+    // provera polja
     if (!email || !firstName || !lastName || !password) {
       return res.status(400).json({
         success: false,
@@ -19,7 +18,7 @@ router.post('/register', async (req, res) => {
       });
     }
 
-    // Check if user already exists
+    // Cprovera da li vec postoji
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
       return res.status(400).json({
@@ -37,7 +36,7 @@ router.post('/register', async (req, res) => {
       firstName,
       lastName,
       password: hashedPassword,
-      role: role || 'event creator', // Default to event creator
+      role: role || 'event creator', // Default event creator
       isActive: true,
     });
 
@@ -71,12 +70,11 @@ router.post('/register', async (req, res) => {
 });
 
 // POST /api/auth/login
-// Login user
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Validate required fields
+    // provera polja
     if (!email || !password) {
       return res.status(400).json({
         success: false,
@@ -115,10 +113,10 @@ router.post('/login', async (req, res) => {
 
     res.cookie("token", token, {
     httpOnly: true,
-    sameSite: "lax", // or "none" if using HTTPS on localhost
-    secure: false    // true if using HTTPS in production
+    sameSite: "lax",
+    secure: false
 });
-    // Return user data (without password) and token
+    // Return user data (bez sifre) and token
     res.json({
       success: true,
       message: 'Login successful',
@@ -148,19 +146,16 @@ router.post('/logout',authenticate, (req, res) => {
   // Clear the JWT token cookie
   res.clearCookie('token', {
     httpOnly: true,
-    sameSite: 'lax', // or 'none' for cross-site with HTTPS
-    secure: false    // true only for HTTPS
+    sameSite: 'lax', 
+    secure: false
   });
   res.json({ success: true, message: 'Logged out successfully' });
 });
 
 
-// GET /api/auth/me – return currently logged-in user's info, or 401 if not authenticated
+// GET /api/auth/me – vraca info o trenutnom ulogovanom korisniku, ili 401 if not authenticated
 router.get('/me',authenticate ,async (req, res) => {
   try {
-    // If using JWT verified via middleware, req.user should be set with userId and role
-    // If using sessions, req.session.userId and req.session.role etc.
-    // Adjust according to your middleware!
     const userId = req.user?.userId; 
     if (!userId) {
       return res.status(401).json({ success: false, error: 'Not authenticated' });

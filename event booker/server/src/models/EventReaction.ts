@@ -4,9 +4,9 @@ import { sequelize } from '../config/database';
 interface EventReactionAttributes {
   id: number;
   eventId: number;
-  userId: number | null;       // null for guests (if supporting IP-based; else make required)
+  userId: number | null;       // null for guests
   reaction: 'like' | 'dislike';
-  ip: string | null;           // for guests, store IP
+  ip: string | null;
   createdAt?: Date;
   updatedAt?: Date;
 }

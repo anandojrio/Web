@@ -17,7 +17,6 @@ import commentRoutes from './routes/comments';
 import tagRoutes from './routes/tags';
 import usersRouter from "./routes/users"; 
 
-// Import route files
 import authRoutes from './routes/auth';
 import cookieParser from 'cookie-parser';
 
@@ -29,11 +28,12 @@ console.log('🚀 Starting RAF Event Booker Backend...');
 // Middleware
 app.use(cors({
   origin: 'http://localhost:5173', // Frontend URL
-  credentials: true,                // Allow cookies, authorization headers, etc.
+  credentials: true,
 }));
 app.use(express.json()); // Parse JSON request bodies
-app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
+app.use(express.urlencoded({ extended: true }));
 
+// Relations between fields
 User.hasMany(RSVP, { foreignKey: 'userId', as: 'rsvps' });
 Event.hasMany(RSVP, { foreignKey: 'eventId', as: 'rsvps' });
 RSVP.belongsTo(User, { foreignKey: 'userId', as: 'user' });
@@ -44,7 +44,7 @@ EventReaction.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 EventReaction.belongsTo(Event, { foreignKey: 'eventId', as: 'event' });
 console.log('✅ Middleware configured');
 
-// Health check route
+// Health test route
 app.get('/', (req: Request, res: Response) => {
   res.json({
     success: true,
@@ -101,7 +101,7 @@ app.use((error: any, req: Request, res: Response, next: any) => {
   });
 });
 
-// Create default admin user
+// Admin user
 const createAdminUser = async () => {
   try {
     const adminEmail = 'admin@raf.rs';
