@@ -53,13 +53,13 @@ const Navbar: React.FC = () => {
     <div className={styles.navbarStacked}>
       <div className={styles.navTitleBar}>
         <span className={styles.mainTitle}>Event Booker</span>
-        <span className={styles.subTitle}>Vaša platforma za događaje</span>
+        <span className={styles.subTitle}>The one event page</span>
       </div>
       <nav className={styles.navbarRow}>
         <div className={styles.navLeft}>
-          <Link to="/kategorije" className={styles.navLink}>Kategorije</Link>
-          <Link to="/events" className={styles.navLink}>Događaji</Link>
-          <Link to="/users" className={styles.navLink}>Korisnici</Link>
+          <Link to="/kategorije" className={styles.navLink}>Categories</Link>
+          <Link to="/events" className={styles.navLink}>Events</Link>
+          <Link to="/users" className={styles.navLink}>Users</Link>
           <form className={styles.searchForm} onSubmit={handleSearch}>
             <input
               type="text"
@@ -76,7 +76,7 @@ const Navbar: React.FC = () => {
             {user.firstName} {user.lastName}
           </span>
           <button className={styles.navLink} style={{ cursor: "pointer" }} onClick={handleLogout}>
-            Odjava
+            Logout
           </button>
         </div>
       </nav>
@@ -91,12 +91,12 @@ const Navbar: React.FC = () => {
       <div className={styles.navbarStacked}>
         <div className={styles.navTitleBar}>
           <span className={styles.mainTitle}>Event Booker</span>
-          <span className={styles.subTitle}>Vaša platforma za događaje</span>
+          <span className={styles.subTitle}>The one event page</span>
         </div>
         <nav className={styles.navbarRow}>
           <div className={styles.navLeft}>
-            <Link to="/kategorije" className={styles.navLink}>Kategorije</Link>
-            <Link to="/events" className={styles.navLink}>Događaji</Link>
+            <Link to="/kategorije" className={styles.navLink}>Category</Link>
+            <Link to="/events" className={styles.navLink}>Events</Link>
             <form className={styles.searchForm} onSubmit={handleSearch}>
               <input
                 type="text"
@@ -113,7 +113,7 @@ const Navbar: React.FC = () => {
               {user.firstName} {user.lastName}
             </span>
             <button className={styles.navLink} style={{ cursor: "pointer" }} onClick={handleLogout}>
-              Odjava
+              Logout
             </button>
           </div>
         </nav>
@@ -126,23 +126,23 @@ const Navbar: React.FC = () => {
     <div className={styles.navbarStacked}>
       <div className={styles.navTitleBar}>
         <span className={styles.mainTitle}>Event Booker</span>
-        <span className={styles.subTitle}>Vaša platforma za događaje</span>
+        <span className={styles.subTitle}>The one event page</span>
       </div>
       <nav className={styles.navbarRow}>
         <div className={styles.navLeft}>
-          <Link to="/" className={styles.navLink}>Početna</Link>
-          <Link to="/najposeceniji" className={styles.navLink}>Najposećeniji</Link>
+          <Link to="/" className={styles.navLink}>Home</Link>
+          <Link to="/najposeceniji" className={styles.navLink}>Most viewed</Link>
           <div
             className={styles.dropdown}
             onMouseEnter={() => setShowDropdown(true)}
             onMouseLeave={() => setShowDropdown(false)}
           >
             <span className={styles.navLink} style={{ cursor: "pointer" }}>
-              Kategorije<span className={styles.dropdownArrow}>▾</span>
+              Categories<span className={styles.dropdownArrow}>▾</span>
             </span>
             {showDropdown && (
               <div className={styles.dropdownContent}>
-                {catLoading && <div className={styles.dropdownItem}>Učitavanje...</div>}
+                {catLoading && <div className={styles.dropdownItem}>Loading...</div>}
                 {catError && <div className={styles.dropdownItem}>{catError}</div>}
                 {categories.map(cat =>
                   <Link
@@ -154,7 +154,7 @@ const Navbar: React.FC = () => {
                   </Link>
                 )}
                 {!catLoading && !catError && categories.length === 0 &&
-                  <div className={styles.dropdownItem}>Nema kategorija</div>
+                  <div className={styles.dropdownItem}>No categories</div>
                 }
               </div>
             )}
@@ -171,8 +171,8 @@ const Navbar: React.FC = () => {
           </form>
         </div>
         <div className={styles.navRight}>
-          <Link to="/login" className={styles.navLink}>Prijava</Link>
-          <Link to="/register" className={styles.navLink}>Registracija</Link>
+          <Link to="/login" className={styles.navLink}>Login</Link>
+          <Link to="/register" className={styles.navLink}>Register</Link>
         </div>
       </nav>
     </div>

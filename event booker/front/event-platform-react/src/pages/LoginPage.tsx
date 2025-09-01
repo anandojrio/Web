@@ -33,7 +33,7 @@ const LoginPage: React.FC = () => {
 
   return (
     <div style={{ maxWidth: 370, margin: "70px auto", padding: 24, background: "#040B11", borderRadius: 10, color: "#F3F3F2", boxShadow: "0 3px 22px #0009" }}>
-      <h2 style={{ color: "#CEE056", textAlign: "center", marginBottom: 17 }}>Prijava</h2>
+      <h2 style={{ color: "#CEE056", textAlign: "center", marginBottom: 17 }}>Login</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor="email" style={{ display: "block", marginBottom: 6 }}>Email:</label>
 <input
@@ -53,12 +53,12 @@ const LoginPage: React.FC = () => {
   onChange={e => setEmail(e.target.value)}
   required
 />
-<label htmlFor="password" style={{ display: "block", marginBottom: 6 }}>Lozinka:</label>
+<label htmlFor="password" style={{ display: "block", marginBottom: 6 }}>Password:</label>
 <input
   style={{
     width: "100%",
     padding: 7,
-    marginBottom: 22,  // Even more space at bottom of password field
+    marginBottom: 22,
     borderRadius: 7,
     border: "none",
     background: "#040B11",
@@ -92,7 +92,7 @@ const LoginPage: React.FC = () => {
             cursor: "pointer"
           }}
         >
-          Prijavi se
+          Log in
         </button>
       </form>
     </div>

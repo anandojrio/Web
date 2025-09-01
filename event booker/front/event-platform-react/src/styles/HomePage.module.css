@@ -90,3 +90,29 @@
   margin-top: 3px;
   line-height: 1.55;
 }
+
+.pagination {
+  margin-top: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 17px;
+}
+.pagination button {
+  background: var(--card-accent);
+  color: var(--main-bg);
+  border: none;
+  border-radius: 7px;
+  padding: 10px 17px 10px 17px;
+  font-size: 1em;
+  font-weight: 700;
+  margin: 0 7px;
+  cursor: pointer;
+  transition: background 0.13s, transform 0.11s;
+}
+.pagination button:disabled {
+  background: #353831;
+  color: #aaa;
+  border-color: #444;
+  cursor: not-allowed;
+}

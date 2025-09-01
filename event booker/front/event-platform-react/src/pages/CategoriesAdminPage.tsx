@@ -88,7 +88,7 @@ const CategoriesAdminPage: React.FC = () => {
       alert("Nije dozvoljeno brisanje kategorije u kojoj ima događaja.");
       return;
     }
-    if (!window.confirm(`Obriši kategoriju "${cat.name}"?`)) return;
+    if (!window.confirm(`Delete category: "${cat.name}"?`)) return;
     try {
       await axios.delete(`/api/categories/${cat.id}`, { withCredentials: true });
       setCategories(categories.filter(c => c.id !== cat.id));
@@ -99,18 +99,18 @@ const CategoriesAdminPage: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <h2>Kategorije</h2>
-      <button className={styles.addBtn} onClick={openAddForm}>Dodaj novu kategoriju</button>
-      {loading ? <p>Učitavanje...</p>
+      <h2>Categories</h2>
+      <button className={styles.addBtn} onClick={openAddForm}>Add new category</button>
+      {loading ? <p>Loading...</p>
         : error ? <p className={styles.error}>{error}</p>
         : (
           <div className={styles.tableWrapper}>
           <table className={styles.table}>
             <thead>
               <tr>
-                <th>Naziv</th>
-                <th>Opis</th>
-                <th>Akcije</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -119,14 +119,14 @@ const CategoriesAdminPage: React.FC = () => {
                   <td>{cat.name}</td>
                   <td>{cat.description}</td>
                   <td>
-                    <button className={styles.actionBtn} onClick={() => openEditForm(cat)}>Izmeni</button>
+                    <button className={styles.actionBtn} onClick={() => openEditForm(cat)}>Edit</button>
                     <button
                       className={styles.actionBtn}
                       style={{ opacity: (eventsByCategory[cat.id] ? 0.5 : 1), cursor: (eventsByCategory[cat.id] ? "not-allowed" : "pointer") }}
                       onClick={() => tryDeleteCategory(cat)}
                       disabled={!!eventsByCategory[cat.id]}
                       title={eventsByCategory[cat.id] ? "Ne može da se obriše (postoje događaji)" : ""}
-                    >Obriši</button>
+                    >Delete</button>
                   </td>
                 </tr>
               ))}
@@ -141,7 +141,7 @@ const CategoriesAdminPage: React.FC = () => {
           <div className={styles.modal}>
             <h3>{editing ? "Izmena kategorije" : "Nova kategorija"}</h3>
             <form onSubmit={handleFormSubmit}>
-              <label>Naziv:</label>
+              <label>Name:</label>
               <input
                 name="name"
                 type="text"
@@ -149,7 +149,7 @@ const CategoriesAdminPage: React.FC = () => {
                 onChange={handleFormChange}
                 required
               />
-              <label>Opis:</label>
+              <label>Description:</label>
               <textarea
                 name="description"
                 value={form.description}
@@ -160,9 +160,9 @@ const CategoriesAdminPage: React.FC = () => {
               {formError && <div className={styles.error}>{formError}</div>}
               <div className={styles.modalActions}>
                 <button type="submit" className={styles.actionBtn}>
-                  {editing ? "Sačuvaj izmene" : "Dodaj"}
+                  {editing ? "Save changes" : "Add"}
                 </button>
-                <button type="button" className={styles.cancelBtn} onClick={closeForm}>Otkaži</button>
+                <button type="button" className={styles.cancelBtn} onClick={closeForm}>Cancel</button>
               </div>
             </form>
           </div>

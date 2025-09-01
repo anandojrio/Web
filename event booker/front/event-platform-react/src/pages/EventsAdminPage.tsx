@@ -138,10 +138,10 @@ const EventsAdminPage: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <h2>Događaji</h2>
-      <button className={styles.primaryButton} onClick={openCreateForm}>Dodaj novi događaj</button>
-      {loading ? (
-        <p>Učitavanje...</p>
+      <h2>Events</h2>
+      <button
+  className={`${styles.primaryButton} ${styles.addEventBtn}`} onClick={openCreateForm}>Add new event</button>
+      {loading ? (<p>Loading...</p>
       ) : (
         <>
           <div className={styles.cardGrid}>
@@ -149,8 +149,8 @@ const EventsAdminPage: React.FC = () => {
               <div key={ev.id} className={styles.cardWithActions}>
                 <EventCard event={ev}>
                   <div className={styles.eventCardActions}>
-                    <button className={styles.primaryButton} onClick={() => openEditForm(ev)}>Izmeni</button>
-                    <button className={styles.primaryButton} onClick={() => deleteEvent(ev)}>Obriši</button>
+                    <button className={styles.primaryButton} onClick={() => openEditForm(ev)}>Edit</button>
+                    <button className={styles.primaryButton} onClick={() => deleteEvent(ev)}>Delete</button>
                   </div>
                 </EventCard>
               </div>
@@ -162,7 +162,7 @@ const EventsAdminPage: React.FC = () => {
               disabled={page === 1}
               onClick={() => setPage(page - 1)}
             >
-              &lt; Prethodna
+              &lt; Last
             </button>
             <span>{page} / {totalPages}</span>
             <button
@@ -170,7 +170,7 @@ const EventsAdminPage: React.FC = () => {
               disabled={page === totalPages}
               onClick={() => setPage(page + 1)}
             >
-              Sledeća &gt;
+              Next &gt;
             </button>
           </div>
         </>
@@ -178,31 +178,31 @@ const EventsAdminPage: React.FC = () => {
       {showForm && (
         <div className={styles.modalBackdrop}>
           <div className={styles.modal}>
-            <h3>{editing ? "Izmeni događaj" : "Novi događaj"}</h3>
+            <h3>{editing ? "Edit event" : "New event"}</h3>
             <form onSubmit={handleFormSubmit}>
-              <label>Naslov:</label>
+              <label>Name:</label>
               <input name="title" value={form.title} onChange={handleFormChange} required />
-              <label>Opis:</label>
+              <label>description:</label>
               <textarea name="description" value={form.description} onChange={handleFormChange} required />
-              <label>Datum i vreme:</label>
+              <label>Event date & time:</label>
               <input name="eventDate" type="datetime-local" value={form.eventDate} onChange={handleFormChange} required />
-              <label>Lokacija:</label>
+              <label>Location:</label>
               <input name="location" value={form.location} onChange={handleFormChange} required />
-              <label>Kategorija:</label>
+              <label>Category:</label>
               <select name="categoryId" value={form.categoryId} onChange={handleFormChange} required>
-                <option value="">-- Izaberite --</option>
+                <option value="">-- Choose --</option>
                 {categories.map(cat => (
                   <option value={cat.id} key={cat.id}>{cat.name}</option>
                 ))}
               </select>
-              <label>Tagovi (odvoji zarezom, povlakom ili ; ):</label>
+              <label>Tags (seperate with comma, povlakom ili ; ):</label>
               <input name="tags" value={form.tags} onChange={handleFormChange} placeholder="sport, open-air" />
-              <label>Max kapacitet (opciono):</label>
+              <label>Max capacity (optional):</label>
               <input name="maxCapacity" type="number" min={1} value={form.maxCapacity} onChange={handleFormChange} />
               {formError && <div className={styles.error}>{formError}</div>}
               <div className={styles.modalActions}>
                 <button type="submit" className={styles.primaryButton}>{editing ? "Sačuvaj" : "Dodaj"}</button>
-                <button type="button" className={styles.primaryButton} onClick={closeForm}>Otkaži</button>
+                <button type="button" className={styles.primaryButton} onClick={closeForm}>Cancel</button>
               </div>
             </form>
           </div>

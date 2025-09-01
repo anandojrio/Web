@@ -19,7 +19,7 @@ const MostReactedWidget: React.FC = () => {
   }, []);
   return (
     <aside className={styles.widget}>
-      <div className={styles.title}>Najviše reakcija</div>
+      <div className={styles.title}>Most reactions</div>
       <ul className={styles.list}>
         {events.map(ev =>
           <li key={ev.id} className={styles.item}>

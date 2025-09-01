@@ -60,6 +60,7 @@ h2 {
   transition: background 0.14s, transform 0.11s;
   outline: none;
   display: inline-block;
+  margin-bottom: 15px;
 }
 .primaryButton:hover,
 .primaryButton:focus {

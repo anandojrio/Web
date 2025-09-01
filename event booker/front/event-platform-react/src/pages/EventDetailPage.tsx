@@ -59,7 +59,6 @@ const EventDetailPage: React.FC = () => {
       .finally(() => setLoading(false));
     axios.get(`/api/events/${eventId}/similar`)
       .then((res) => setSimilar(res.data.data));
-    // --- RSVP Endpoint uses /events/:eventId/rsvps
     axios.get(`/api/events/${eventId}/rsvps`)
       .then(res => {
         setRsvpCount(res.data.data.length);
@@ -137,7 +136,7 @@ const EventDetailPage: React.FC = () => {
   }
 
   if (loading) return <div className={styles.container}>Učitavanje...</div>;
-  if (!event) return <div className={styles.container}>Događaj nije pronađen.</div>;
+  if (!event) return <div className={styles.container}>Event not found.</div>;
 
   return (
     <div className={styles.pageGrid}>
@@ -145,15 +144,15 @@ const EventDetailPage: React.FC = () => {
         <div>
           <h1>{event.title}</h1>
           <p>
-            <span className={styles.columnName}>Kategorija:</span>
+            <span className={styles.columnName}>Category:</span>
             <span className={styles.columnValue}>{event.category?.name}</span>
           </p>
           <p>
-            <span className={styles.columnName}>Autor:</span>
+            <span className={styles.columnName}>Author:</span>
             <span className={styles.columnValue}>{event.author.firstName} {event.author.lastName}</span>
           </p>
           <p>
-            <span className={styles.columnName}>Datum kreiranja:</span>
+            <span className={styles.columnName}>Creation date:</span>
             <span className={styles.columnValue}>{new Date(event.createdAt).toLocaleString("sr-RS")}</span>
           </p>
           <p>
@@ -161,15 +160,15 @@ const EventDetailPage: React.FC = () => {
             <span className={styles.columnValue}>{new Date(event.eventDate).toLocaleString("sr-RS")}</span>
           </p>
           <p>
-            <span className={styles.columnName}>Lokacija:</span>
+            <span className={styles.columnName}>Location:</span>
             <span className={styles.columnValue}>{event.location}</span>
           </p>
           <p>
-            <span className={styles.columnName}>Pregledi:</span>
+            <span className={styles.columnName}>Views:</span>
             <span className={styles.columnValue}>{event.views}</span>
           </p>
           <div>
-            <span className={styles.columnName}>Tagovi:</span>
+            <span className={styles.columnName}>Tags:</span>
             {event.tags.map(tag => (
               <span key={tag.id} className={styles.columnValue}>
                 <Link to={`/tags/${tag.id}`}>{tag.name}</Link>{" "}
@@ -186,30 +185,30 @@ const EventDetailPage: React.FC = () => {
           </div>
           {event.maxCapacity &&
             <div className={styles.rsvpSection}>
-              <span className={styles.columnName}>Prijavljeno:</span>
+              <span className={styles.columnName}>Enrolled:</span>
               <span className={styles.columnValue}>{rsvpCount} / {event.maxCapacity}</span>
               {!user ? (
-                <span className={styles.error} style={{ marginLeft: 17 }}>Morate biti prijavljeni</span>
+                <span className={styles.error} style={{ marginLeft: 17 }}>You have to be logged in</span>
               ) : alreadyRSVPed ? (
                 <button
                   className={styles.primaryButton}
                   disabled={rsvpLoading}
                   onClick={handleCancelRSVP}
-                >Otkaži prijavu</button>
+                >Cancel enrollment</button>
               ) : (
                 <button
                   className={styles.primaryButton}
                   disabled={rsvpLoading || rsvpCount >= event.maxCapacity}
                   onClick={handleRSVP}
-                >Prijavi se</button>
+                >Enroll</button>
               )}
               {rsvpStatus && <span style={{ color: "var(--accent-gold)", marginLeft: 13 }}>{rsvpStatus}</span>}
             </div>
           }
         </div>
         <div className={styles.similarSection}>
-          <h2>Pročitaj još...</h2>
-          {similar.length === 0 && <p>Nema sličnih događaja.</p>}
+          <h2>Read more...</h2>
+          {similar.length === 0 && <p>No similar events.</p>}
           <ul>
             {similar.map(ev => (
               <li key={ev.id}>
@@ -221,21 +220,21 @@ const EventDetailPage: React.FC = () => {
       </div>
       <div className={styles.rightColumn}>
         <div>
-          <h2>Komentari</h2>
+          <h2>Comments</h2>
           <form onSubmit={submitComment}>
             <input
               value={authorName}
               onChange={e => setAuthorName(e.target.value)}
-              placeholder="Vaše ime"
+              placeholder="Your name"
               required
             />
             <textarea
               value={commentText}
               onChange={e => setCommentText(e.target.value)}
-              placeholder="Vaš komentar"
+              placeholder="Your comment"
               required
             />
-            <button type="submit" className={styles.primaryButton}>Dodaj komentar</button>
+            <button type="submit" className={styles.primaryButton}>Comment</button>
           </form>
           <div>
             {comments.map(comm => (
@@ -255,7 +254,7 @@ const EventDetailPage: React.FC = () => {
               disabled={commentsPage === 1}
               onClick={() => setCommentsPage(commentsPage - 1)}
             >
-              Prethodna
+              Last
             </button>
             <span>{commentsPage} / {totalCommentPages}</span>
             <button
@@ -263,7 +262,7 @@ const EventDetailPage: React.FC = () => {
               disabled={commentsPage === totalCommentPages}
               onClick={() => setCommentsPage(commentsPage + 1)}
             >
-              Sledeća
+              Next
             </button>
           </div>
         </div>

@@ -33,9 +33,9 @@ const CategoryEventsPage: React.FC = () => {
 
   return (
     <div className={styles.pageContainer}>
-      <h1 className={styles.title}>Događaji u ovoj kategoriji</h1>
+      <h1 className={styles.title}>Events in this category</h1>
       {loading ? (
-        <p>Učitavanje...</p>
+        <p>Loading...</p>
       ) : events.length ? (
         <>
           <div className={styles.eventList}>
@@ -66,7 +66,7 @@ const CategoryEventsPage: React.FC = () => {
               disabled={page === 1}
               onClick={() => setPage(page - 1)}
             >
-              Prethodna
+              Last
             </button>
             <span>{page} / {totalPages}</span>
             <button
@@ -74,7 +74,7 @@ const CategoryEventsPage: React.FC = () => {
               disabled={page === totalPages}
               onClick={() => setPage(page + 1)}
             >
-              Sledeća
+              Next
             </button>
           </div>
         </>
@@ -91,7 +91,7 @@ const CategoryEventsPage: React.FC = () => {
           maxWidth: "480px",
           letterSpacing: "0.03em"
         }}>
-          Nema događaja u ovoj kategoriji.
+          No events in this category.
         </div>
       )}
     </div>

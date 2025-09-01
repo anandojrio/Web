@@ -37,11 +37,11 @@ const EventCard: React.FC<Props> = ({ event, children }) => (
       {event.description?.length > 0 ? event.description : ""}
     </div>
     <div className={homeStyles.eventMeta}>
-      <strong>Lokacija:</strong> {event.location}
+      <strong>Location:</strong> {event.location}
     </div>
     {event.tags && event.tags.length > 0 && (
       <div style={{ margin: "5px 0" }}>
-        <strong>Tagovi:</strong> {event.tags.map(tag => tag.name).join(", ")}
+        <strong>Tags:</strong> {event.tags.map(tag => tag.name).join(", ")}
       </div>
     )}
     <div className={homeStyles.eventMeta}>

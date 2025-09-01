@@ -8,7 +8,7 @@ type Event = {
   id: number;
   title: string;
   description: string;
-  createdAt: string; // Use actual field name from backend, often 'createdAt'
+  createdAt: string;
   category?: { id: number; name: string } | null;
 };
 
@@ -18,7 +18,6 @@ const HomePage: React.FC = () => {
 
   useEffect(() => {
     setLoading(true);
-    // Add limit/sort if supported by your backend for only 10 recent events
     getEvents()
       .then(res => {
         setEvents(res.data.data || []);
@@ -30,9 +29,9 @@ const HomePage: React.FC = () => {
     <>
       <MostReactedWidget />
       <div className={styles.pageContainer}>
-        <h1 className={styles.title}>Najnoviji događaji</h1>
+        <h1 className={styles.title}>Newest events</h1>
         {loading ? (
-          <p>Učitavanje...</p>
+          <p>Loading...</p>
         ) : events.length ? (
           <div className={styles.eventList}>
             {events.map(ev => (
@@ -57,7 +56,7 @@ const HomePage: React.FC = () => {
             ))}
           </div>
         ) : (
-          <p>Nema događaja.</p>
+          <p>No events.</p>
         )}
       </div>
     </>

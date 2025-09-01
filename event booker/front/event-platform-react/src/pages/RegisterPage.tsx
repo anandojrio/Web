@@ -27,9 +27,9 @@ const RegisterPage: React.FC = () => {
         { ...form }, // all fields except "role" (defaults to event creator)
         { withCredentials: true }
       );
-      // Optionally auto-login after registration:
+
       if (res.data.success) {
-        navigate("/login"); // Go to login page or directly to home if you want auto-login
+        navigate("/login"); // Go to login page
       }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
@@ -52,7 +52,7 @@ const RegisterPage: React.FC = () => {
       color: "#F3F3F2",
       boxShadow: "0 3px 22px #0009"
     }}>
-      <h2 style={{ color: "#CEE056", textAlign: "center", marginBottom: 17 }}>Registracija</h2>
+      <h2 style={{ color: "#CEE056", textAlign: "center", marginBottom: 17 }}>Registration</h2>
       <form onSubmit={handleSubmit} autoComplete="off">
         <div style={{ marginBottom: 17 }}>
           <label htmlFor="email" style={{ display: "block", marginBottom: 7 }}>Email:</label>
@@ -70,7 +70,7 @@ const RegisterPage: React.FC = () => {
           />
         </div>
         <div style={{ marginBottom: 17 }}>
-          <label htmlFor="firstName" style={{ display: "block", marginBottom: 7 }}>Ime:</label>
+          <label htmlFor="firstName" style={{ display: "block", marginBottom: 7 }}>Name:</label>
           <input
             style={{
               width: "100%", padding: 8, borderRadius: 7, border: "none",
@@ -85,7 +85,7 @@ const RegisterPage: React.FC = () => {
           />
         </div>
         <div style={{ marginBottom: 17 }}>
-          <label htmlFor="lastName" style={{ display: "block", marginBottom: 7 }}>Prezime:</label>
+          <label htmlFor="lastName" style={{ display: "block", marginBottom: 7 }}>Surname:</label>
           <input
             style={{
               width: "100%", padding: 8, borderRadius: 7, border: "none",
@@ -100,7 +100,7 @@ const RegisterPage: React.FC = () => {
           />
         </div>
         <div style={{ marginBottom: 25 }}>
-          <label htmlFor="password" style={{ display: "block", marginBottom: 7 }}>Lozinka:</label>
+          <label htmlFor="password" style={{ display: "block", marginBottom: 7 }}>Password:</label>
           <input
             style={{
               width: "100%", padding: 8, borderRadius: 7, border: "none",

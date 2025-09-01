@@ -35,9 +35,9 @@ const SearchPage: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <h2>Rezultati pretrage</h2>
+      <h2>Search results</h2>
       {loading ? (
-        <p>Pretraga...</p>
+        <p>searching...</p>
       ) : (
         <>
           {events.length ? (
@@ -55,7 +55,7 @@ const SearchPage: React.FC = () => {
                   disabled={page === 1}
                   onClick={() => setPage(page - 1)}
                 >
-                  &lt; Prethodna
+                  &lt; Last
                 </button>
                 <span>{page} / {totalPages}</span>
                 <button
@@ -63,7 +63,7 @@ const SearchPage: React.FC = () => {
                   disabled={page === totalPages}
                   onClick={() => setPage(page + 1)}
                 >
-                  Sledeća &gt;
+                  Next &gt;
                 </button>
               </div>
             </>

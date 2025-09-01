@@ -27,7 +27,7 @@ const NajposecenijiPage: React.FC = () => {
 
   return (
     <div className={styles.pageContainer}>
-      <h1 className={styles.title}>Najposećeniji događaji</h1>
+      <h1 className={styles.title}>Most viewed events</h1>
       {loading ? (
         <p>Učitavanje...</p>
       ) : events.length ? (
@@ -45,7 +45,7 @@ const NajposecenijiPage: React.FC = () => {
                   {new Date(ev.createdAt).toLocaleString("sr-RS")}
                 </span>
                 <span style={{ marginLeft: 12 }}>
-                  👁️ {ev.views} pregleda
+                  👁️ {ev.views} views
                 </span>
               </div>
               <div className={styles.eventDesc}>
